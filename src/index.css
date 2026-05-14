@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-accent: #3b82f6;
+  --color-accent-purple: #8b5cf6;
+  --color-surface: #020617;
+  --color-panel: rgba(255, 255, 255, 0.05);
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-white antialiased selection:bg-accent selection:text-white overflow-x-hidden;
+  }
+}
+
+.glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-500;
+}
+
+.hover-glow {
+  @apply transition-all duration-300 hover:shadow-[0_0_40px_rgba(139,92,246,0.3)] hover:border-accent/40;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-surface;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-accent/40 transition-colors;
+}
