@@ -104,6 +104,33 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
         </div>
 
         <section className="mb-24">
+          <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Character Spotlight</h2>
+              <p className="mt-2 max-w-lg text-stone-400">
+                Meet a few of the companions waiting to connect with you.
+              </p>
+            </div>
+            <Link
+              to="/characters"
+              className="text-sm font-semibold text-accent transition-colors hover:text-rose-200"
+            >
+              View all characters →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-12">
+            {CHARACTERS.map((char) => (
+              <CompanionCard
+                key={char.id}
+                character={char}
+                onSelect={onSelect}
+                onWatch={onWatch}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-24">
           <div className="mb-10 text-center">
             <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Pricing</h2>
             <p className="mx-auto mt-3 max-w-xl text-stone-400">
@@ -193,32 +220,6 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
           </div>
         </section>
 
-        <section className="mb-16">
-          <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Character Spotlight</h2>
-              <p className="mt-2 max-w-lg text-stone-400">
-                Meet a few of the companions waiting to connect with you.
-              </p>
-            </div>
-            <Link
-              to="/characters"
-              className="text-sm font-semibold text-accent transition-colors hover:text-rose-200"
-            >
-              View all characters →
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-12">
-            {CHARACTERS.map((char) => (
-              <CompanionCard
-                key={char.id}
-                character={char}
-                onSelect={onSelect}
-                onWatch={onWatch}
-              />
-            ))}
-          </div>
-        </section>
       </div>
     </main>
   );
