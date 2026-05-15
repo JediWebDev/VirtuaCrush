@@ -61,8 +61,8 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
               animate={{ opacity: 1, y: 0 }}
               className="font-hero text-5xl font-medium leading-[1.12] tracking-tight text-stone-50 md:text-7xl lg:text-8xl"
             >
-              Your type.{" "}
-              <span className="text-gradient italic font-normal">Now typing</span>
+              Real connections.{" "}
+              <span className="text-gradient italic font-normal">Virtual sparks.</span>
             </motion.h1>
 
             <motion.p
@@ -203,18 +203,26 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
               </p>
             </article>
             <article className="rounded-2xl border border-violet-warm/25 glass p-8">
-              <h3 className="mb-1 text-xl font-semibold text-stone-50">2. $CRUSH (TRADED EXTERNAL TOKEN)</h3>
-              <p className="mb-4 text-sm font-medium text-violet-warm">Speculative · Market-driven · Open economy</p>
-              <p className="mb-4 text-sm text-stone-400">Used for:</p>
+              <h3 className="mb-1 text-xl font-semibold text-stone-50">2. $CRUSH (EXTERNAL TOKEN)</h3>
+              <p className="mb-4 text-sm font-medium text-violet-warm">
+                100% Optional. Market-driven. Open economy.
+              </p>
+              <p className="mb-4 text-sm leading-relaxed text-stone-400">
+                You can always use traditional payments (credit cards/fiat) for everything in VirtuaCrush.
+                However, holding and using our optional $CRUSH token unlocks premium ecosystem advantages.
+              </p>
+              <p className="mb-2 text-sm text-stone-400">Used for:</p>
               <ul className="mb-6 space-y-2 text-sm text-stone-300">
-                <li>· Buying Virtua Tokens</li>
+                <li>· Buying Virtua Tokens at a discount</li>
                 <li>· Staking for perks</li>
                 <li>· Unlocking exclusive tiers</li>
                 <li>· Governance / character influence</li>
                 <li>· VIP status</li>
               </ul>
-              <p className="rounded-xl border border-violet-warm/25 bg-violet-warm/10 px-4 py-3 text-sm font-medium text-stone-200">
-                Key rule: $CRUSH never directly prices experiences.
+              <p className="rounded-xl border border-violet-warm/25 bg-violet-warm/10 px-4 py-3 text-sm font-medium leading-relaxed text-stone-200">
+                Key rule: Fiat payments are always accepted. $CRUSH is an optional upgrade path that
+                rewards our most dedicated community members, but never directly prices in-app
+                experiences.
               </p>
             </article>
           </div>
