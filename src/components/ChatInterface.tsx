@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Send, User, ArrowLeft, Loader2, Settings, Trash2, Sparkles } from "lucide-react";
+import { Send, User, ArrowLeft, Loader2, Settings, Trash2, Sparkles, LayoutGrid, X } from "lucide-react";
 import { Character } from "../types/character";
+import SocialFeed from "./SocialFeed";
 
 interface Message {
   id: string;
@@ -15,13 +16,12 @@ interface Props {
   onBack: () => void;
 }
 
-const PERSONALITY_TAGS = ["Empathic", "Creative", "Night Owl", "Good Listener"] as const;
-
 export default function ChatInterface({ character, onBack }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [feedOpen, setFeedOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -121,12 +121,12 @@ export default function ChatInterface({ character, onBack }: Props) {
       initial={{ opacity: 0, scale: 1.02 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.98 }}
-      className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-surface md:flex-row"
+      className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-surface lg:grid lg:grid-cols-[300px_1fr_350px] lg:grid-rows-1"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(201,113,125,0.12),transparent)]" />
 
       {/* Profile rail — dating / social profile feel */}
-      <div className="flex w-full flex-col border-b border-white/[0.06] p-6 glass backdrop-blur-2xl md:w-[22rem] md:border-b-0 md:border-r">
+      <div className="flex w-full flex-col border-b border-white/[0.06] p-6 glass backdrop-blur-2xl lg:h-full lg:overflow-y-auto lg:border-b-0 lg:border-r">
         <div className="mb-8 flex items-center justify-between">
             <button
             type="button"
@@ -165,7 +165,7 @@ export default function ChatInterface({ character, onBack }: Props) {
                 Vibe
             </h4>
             <div className="flex flex-wrap gap-2">
-                {PERSONALITY_TAGS.map((tag) => (
+                {character.tags.map((tag) => (
                   <span
                     key={tag}
                     className="rounded-full border border-accent/20 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-rose-100/95"
@@ -206,8 +206,8 @@ export default function ChatInterface({ character, onBack }: Props) {
       </div>
 
       {/* Main chat */}
-      <div className="relative flex flex-1 flex-col overflow-hidden bg-stone-950/40">
-        <div className="z-10 flex items-center justify-between border-b border-white/[0.06] bg-surface/70 px-5 py-4 backdrop-blur-xl md:px-8 md:py-5">
+      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-stone-950/40 lg:min-h-full">
+        <div className="z-10 flex items-center justify-between gap-3 border-b border-white/[0.06] bg-surface/70 px-5 py-4 backdrop-blur-xl md:px-8 md:py-5">
             <div className="flex items-center gap-3">
                 <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-accent/25">
                     <img src={character.image} alt="" className="h-full w-full object-cover" />
@@ -220,6 +220,14 @@ export default function ChatInterface({ character, onBack }: Props) {
                     </div>
                 </div>
             </div>
+            <button
+              type="button"
+              onClick={() => setFeedOpen(true)}
+              className="flex shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-semibold text-stone-300 transition-all hover:border-accent/30 hover:text-stone-100 lg:hidden"
+            >
+              <LayoutGrid size={16} />
+              View Feed
+            </button>
         </div>
 
         <div 
@@ -342,6 +350,46 @@ export default function ChatInterface({ character, onBack }: Props) {
           </div>
         </div>
       </div>
+      {/* Desktop social feed */}
+      <div className="hidden min-h-0 flex-col border-l border-white/[0.06] lg:flex">
+        <SocialFeed character={character} className="h-full w-full" />
+      </div>
+
+      <AnimatePresence>
+        {feedOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[55] bg-black/50 backdrop-blur-sm lg:hidden"
+              onClick={() => setFeedOpen(false)}
+              aria-hidden
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 280 }}
+              className="fixed inset-y-0 right-0 z-[60] flex w-full max-w-[350px] flex-col border-l border-white/[0.08] bg-surface shadow-2xl lg:hidden"
+            >
+              <div className="flex shrink-0 items-center justify-between border-b border-white/[0.06] px-4 py-3">
+                <span className="text-sm font-semibold text-stone-200">Feed</span>
+                <button
+                  type="button"
+                  onClick={() => setFeedOpen(false)}
+                  className="rounded-lg p-2 text-stone-400 transition-colors hover:bg-white/[0.06] hover:text-stone-100"
+                  aria-label="Close feed"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <SocialFeed character={character} className="min-h-0 flex-1" />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
     </motion.div>
   );
 }
