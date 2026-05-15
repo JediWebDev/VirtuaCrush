@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
-import { Character } from "./types/character";
+import { Character, CHARACTERS } from "./types/character";
 import ChatInterface from "./components/ChatInterface";
 import Footer from "./components/Footer";
 import Nav from "./components/Nav";
@@ -29,6 +29,9 @@ export default function App() {
   const [activeVideo, setActiveVideo] = useState<Character | null>(null);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
+  const [affinityByCharacter, setAffinityByCharacter] = useState<Record<string, number>>(() =>
+    Object.fromEntries(CHARACTERS.map((c) => [c.id, c.currentAffinity]))
+  );
 
   const connectWallet = async () => {
     if (typeof window.ethereum !== "undefined") {
@@ -48,7 +51,19 @@ export default function App() {
   };
 
   const handleWatch = (char: Character) => setActiveVideo(char);
-  const handleSelect = (char: Character) => setActiveChat(char);
+  const handleSelect = (char: Character) => {
+    setActiveChat({
+      ...char,
+      currentAffinity: affinityByCharacter[char.id] ?? char.currentAffinity,
+    });
+  };
+
+  const handleAffinityChange = (characterId: string, affinity: number) => {
+    setAffinityByCharacter((prev) => ({ ...prev, [characterId]: affinity }));
+    setActiveChat((current) =>
+      current?.id === characterId ? { ...current, currentAffinity: affinity } : current
+    );
+  };
 
   return (
     <div className="min-h-screen bg-surface">
@@ -102,7 +117,11 @@ export default function App() {
 
       <AnimatePresence>
         {activeChat && (
-          <ChatInterface character={activeChat} onBack={() => setActiveChat(null)} />
+          <ChatInterface
+            character={activeChat}
+            onBack={() => setActiveChat(null)}
+            onAffinityChange={handleAffinityChange}
+          />
         )}
       </AnimatePresence>
 

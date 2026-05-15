@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Send, User, ArrowLeft, Loader2, Settings, Trash2, Sparkles, LayoutGrid, X } from "lucide-react";
-import { Character } from "../types/character";
+import { Character, buildRivalrySystemContext } from "../types/character";
 import SocialFeed from "./SocialFeed";
+
+const AFFINITY_PER_MESSAGE = 4;
+const MAX_AFFINITY = 100;
 
 interface Message {
   id: string;
@@ -14,15 +17,23 @@ interface Message {
 interface Props {
   character: Character;
   onBack: () => void;
+  onAffinityChange?: (characterId: string, affinity: number) => void;
 }
 
-export default function ChatInterface({ character, onBack }: Props) {
+export default function ChatInterface({ character, onBack, onAffinityChange }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [feedOpen, setFeedOpen] = useState(false);
+  const [affinity, setAffinity] = useState(character.currentAffinity);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const characterWithAffinity: Character = { ...character, currentAffinity: affinity };
+
+  useEffect(() => {
+    setAffinity(character.currentAffinity);
+  }, [character.id, character.currentAffinity]);
 
   useEffect(() => {
     const welcomeMsg: Message = {
@@ -58,13 +69,23 @@ export default function ChatInterface({ character, onBack }: Props) {
     setInput("");
     setIsLoading(true);
 
+    const nextAffinity = Math.min(MAX_AFFINITY, affinity + AFFINITY_PER_MESSAGE);
+    setAffinity(nextAffinity);
+    onAffinityChange?.(character.id, nextAffinity);
+
+    const rivalryContext = buildRivalrySystemContext({
+      ...character,
+      currentAffinity: nextAffinity,
+    });
+
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: textToSend,
-          characterPersona: character.persona
+          characterPersona: character.persona,
+          rivalryContext,
         })
       });
 
@@ -157,7 +178,7 @@ export default function ChatInterface({ character, onBack }: Props) {
           <h2 className="mb-1 font-serif text-2xl font-bold text-stone-50">{character.name}</h2>
           <p className="mb-3 text-xs font-medium uppercase tracking-[0.12em] text-accent">{character.role}</p>
           <span className="mb-5 inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold text-stone-300">
-            Close Friend
+            Affinity {affinity}%
           </span>
           
           <div className="mb-6 w-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4 text-left">
@@ -352,7 +373,7 @@ export default function ChatInterface({ character, onBack }: Props) {
       </div>
       {/* Desktop social feed */}
       <div className="hidden min-h-0 flex-col border-l border-white/[0.06] lg:flex">
-        <SocialFeed character={character} className="h-full w-full" />
+        <SocialFeed character={characterWithAffinity} className="h-full w-full" isActive />
       </div>
 
       <AnimatePresence>
@@ -384,7 +405,7 @@ export default function ChatInterface({ character, onBack }: Props) {
                   <X size={20} />
                 </button>
               </div>
-              <SocialFeed character={character} className="min-h-0 flex-1" />
+              <SocialFeed character={characterWithAffinity} className="min-h-0 flex-1" isActive={feedOpen} />
             </motion.div>
           </>
         )}
