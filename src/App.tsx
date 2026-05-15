@@ -71,7 +71,7 @@ export default function App() {
       {/* Navigation */}
       <header className="relative z-10 flex items-center justify-between px-6 py-8 md:px-12">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent shadow-lg shadow-accent/30">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent shadow-lg shadow-accent/25">
             <Sparkles className="text-white" size={20} />
           </div>
           <span className="font-serif text-2xl font-bold tracking-tight">VirtuaCrush</span>
@@ -79,16 +79,16 @@ export default function App() {
 
         <div className="flex items-center gap-4">
           <div className="hidden items-center gap-2 rounded-full glass px-4 py-2 md:flex">
-            <div className="h-2 w-2 animate-pulse rounded-full bg-accent" />
-            <span className="text-xs font-bold tracking-widest text-white/50">NETWORK ACTIVE</span>
+            <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400/90" />
+            <span className="text-xs font-semibold tracking-wide text-stone-400">ONLINE NOW</span>
           </div>
 
           <button
             onClick={isWalletConnected ? undefined : connectWallet}
-            className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition-all ${
+            className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all ${
               isWalletConnected 
-                ? "bg-accent/10 text-accent border border-accent/20" 
-                : "bg-white text-surface hover:bg-accent hover:text-white"
+                ? "border border-accent/25 bg-accent/10 text-rose-100" 
+                : "bg-stone-100 text-surface hover:bg-accent hover:text-white"
             }`}
           >
             <Wallet size={18} />
@@ -111,10 +111,10 @@ export default function App() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-blue-500/20 text-blue-400 text-xs font-bold tracking-widest uppercase"
+                className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-white/[0.04] px-4 py-2 text-xs font-semibold tracking-wide text-rose-200/90 backdrop-blur-xl"
               >
-                <Activity size={14} className="animate-pulse" />
-                Live Neural Streaming
+                <Activity size={14} className="animate-pulse text-accent" />
+                Exclusive Video Feed
               </motion.div>
 
               <motion.h1 
@@ -122,26 +122,26 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="font-serif text-5xl font-bold leading-[1.1] md:text-7xl lg:text-8xl"
               >
-                Deep <span className="text-gradient italic">Connection</span> Realized.
+                Your type. <span className="text-gradient italic">Now typing</span>
               </motion.h1>
 
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-lg text-white/50 leading-relaxed max-w-xl mx-auto lg:mx-0"
+                className="mx-auto max-w-xl text-lg leading-relaxed text-stone-400 lg:mx-0"
               >
-                Experience the next evolution of digital companionship. Our neural models don't just chat—they simulate memory, emotion, and presence.
+                Experience true companionship with lifelike avatars who remember you, share their daily moments, and send personalized messages.
               </motion.p>
               
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <button className="bg-accent hover:bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-blue-500/20 active:scale-95 flex items-center gap-2">
+                <button className="flex items-center gap-2 rounded-2xl bg-accent px-8 py-4 font-semibold text-white shadow-lg shadow-accent/25 transition-all hover:bg-accent-deep active:scale-95">
                   <Sparkles size={18} />
                   Join Beta Waitlist
                 </button>
-                <button className="glass border-white/10 hover:bg-white/5 text-white px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 flex items-center gap-2">
+                <button className="glass flex items-center gap-2 rounded-2xl border-stone-500/15 px-8 py-4 font-semibold text-stone-100 transition-all hover:bg-white/[0.07] active:scale-95">
                   <Shield size={18} />
-                  Whitepaper
+                  How it Works
                 </button>
               </div>
             </div>
@@ -159,25 +159,25 @@ export default function App() {
 
           {/* New: Economies Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
-             <div className="p-8 rounded-3xl glass border-blue-500/10">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                   <div className="h-8 w-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+             <div className="rounded-3xl border border-accent/15 glass p-8">
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/15 text-accent">
                       <LayoutGrid size={18} />
                    </div>
                    Multi-Currency Economy
                 </h3>
-                <p className="text-sm text-white/50 leading-relaxed">
+                <p className="text-sm leading-relaxed text-stone-400">
                    Unlock companion access using traditional fiat or our native $CRUSH token. Crypto holders benefit from exclusive governance rights and early persona drops.
                 </p>
              </div>
-             <div className="p-8 rounded-3xl glass border-purple-500/10">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                   <div className="h-8 w-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400">
+             <div className="rounded-3xl border border-violet-warm/20 glass p-8">
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-warm/15 text-violet-warm">
                       <Sparkles size={18} />
                    </div>
                    Bespoke Personas
                 </h3>
-                <p className="text-sm text-white/50 leading-relaxed">
+                <p className="text-sm leading-relaxed text-stone-400">
                    Every character in our roster is built with a deep psychological framework, ensuring consistent memory and realistic personality growth.
                 </p>
              </div>
@@ -205,7 +205,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-surface/95 p-4 backdrop-blur-2xl"
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-surface/90 p-4 backdrop-blur-2xl"
           >
             <motion.div 
               initial={{ scale: 0.9, y: 20 }}
@@ -215,7 +215,7 @@ export default function App() {
             >
               <button
                 onClick={() => setActiveVideo(null)}
-                className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-surface/50 text-white backdrop-blur-md transition-all hover:bg-accent"
+                className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-surface/60 text-stone-100 backdrop-blur-md transition-all hover:bg-accent"
               >
                 <X size={20} />
               </button>
@@ -227,8 +227,8 @@ export default function App() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-10 left-10">
-                <h3 className="font-serif text-4xl font-bold text-white mb-2">{activeVideo.name}</h3>
-                <p className="text-white/60 font-medium tracking-wide">PREMIUM CHARACTER PREVIEW</p>
+                <h3 className="mb-2 font-serif text-4xl font-bold text-stone-50">{activeVideo.name}</h3>
+                <p className="font-medium tracking-wide text-stone-400">Exclusive preview</p>
               </div>
             </motion.div>
           </motion.div>
@@ -250,28 +250,28 @@ export default function App() {
 
       {/* Background Decor */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute -left-1/4 top-0 h-[800px] w-[800px] rounded-full bg-accent/5 blur-[120px]" />
-        <div className="absolute -right-1/4 bottom-0 h-[600px] w-[600px] rounded-full bg-white/2 blur-[100px]" />
+        <div className="absolute -left-1/4 top-0 h-[800px] w-[800px] rounded-full bg-accent/10 blur-[120px]" />
+        <div className="absolute -right-1/4 bottom-0 h-[600px] w-[600px] rounded-full bg-violet-warm/10 blur-[100px]" />
       </div>
     </div>
   );
 }
 
 const CTASection = () => (
-    <section className="px-6 py-24 md:px-12 bg-gradient-to-b from-transparent to-blue-500/5">
-        <div className="mx-auto max-w-4xl glass p-12 rounded-[3rem] border-white/10 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-40 w-40 bg-accent/20 blur-3xl" />
-        <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Secure Early Access</h2>
-        <p className="text-white/50 mb-10 max-w-xl mx-auto">
+    <section className="bg-gradient-to-b from-transparent to-accent/5 px-6 py-24 md:px-12">
+        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[3rem] border border-white/10 glass p-12 text-center">
+        <div className="absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 -translate-y-1/2 bg-accent/15 blur-3xl" />
+        <h2 className="mb-6 font-serif text-4xl font-bold md:text-5xl">Secure Early Access</h2>
+        <p className="mx-auto mb-10 max-w-xl text-stone-400">
             Sign up to be notified of our $CRUSH pre-sale token launch and receive immediate priority for the limited Beta release.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+        <div className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row">
             <input 
             type="email" 
-            placeholder="Enter your terminal email"
-            className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-accent/40"
+            placeholder="Enter your email"
+            className="flex-1 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-stone-100 outline-none transition-colors placeholder:text-stone-500 focus:border-accent/40 focus:ring-2 focus:ring-accent/15"
             />
-            <button className="bg-accent text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-xl shadow-blue-500/20 active:scale-95">
+            <button className="rounded-2xl bg-accent px-8 py-4 font-semibold text-white shadow-lg shadow-accent/25 transition-all hover:bg-accent-deep active:scale-95">
             Subscribe
             </button>
         </div>

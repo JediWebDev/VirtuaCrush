@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Send, User, Bot, ArrowLeft, Loader2, 
-  Settings, Trash2, Sparkles, Zap, 
-  Wifi, Shield, Cpu, MessageSquareDashed
-} from "lucide-react";
+import { Send, User, ArrowLeft, Loader2, Settings, Trash2, Sparkles } from "lucide-react";
 import { Character } from "../types/character";
 
 interface Message {
@@ -19,6 +15,8 @@ interface Props {
   onBack: () => void;
 }
 
+const PERSONALITY_TAGS = ["Empathic", "Creative", "Night Owl", "Good Listener"] as const;
+
 export default function ChatInterface({ character, onBack }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -26,11 +24,10 @@ export default function ChatInterface({ character, onBack }: Props) {
   const [showSettings, setShowSettings] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Initialize with character intro
   useEffect(() => {
     const welcomeMsg: Message = {
       id: "welcome",
-      text: `Sync established. I am ${character.name}, your ${character.role}. ${character.bio} How shall we proceed with our interaction?`,
+      text: `Hey there, I'm ${character.name}, your ${character.role}. ${character.bio} What would you like to talk about?`,
       sender: "bot",
       timestamp: new Date()
     };
@@ -73,24 +70,25 @@ export default function ChatInterface({ character, onBack }: Props) {
 
       if (!response.ok) {
          const errData = await response.json();
-         throw new Error(errData.error || "Neural link failure");
+         throw new Error(errData.error || "Message failed to send. Try again.");
       }
 
       const data = await response.json();
       
       const botMsg: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.text || "Neural connection reset. Please try again.",
+        text: data.text || "Something went wrong. Tap send again when you're ready.",
         sender: "bot",
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, botMsg]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Chat Error:", error);
+      const message = error instanceof Error ? error.message : "Message failed to send. Try again.";
       const errorMsg: Message = {
         id: "err-" + Date.now(),
-        text: `Network Alert: ${error.message || "Connection to neural core failed."}`,
+        text: message.includes("failed") ? message : "Message failed to send. Try again.",
         sender: "bot",
         timestamp: new Date()
       };
@@ -101,10 +99,10 @@ export default function ChatInterface({ character, onBack }: Props) {
   };
 
   const clearChat = () => {
-    if (confirm("Erase local chat buffer?")) {
+    if (confirm("Clear this conversation?")) {
       setMessages([{
         id: "reset",
-        text: "Buffer purged. Handshake re-initiated.",
+        text: "Chat history cleared.",
         sender: "bot",
         timestamp: new Date()
       }]);
@@ -112,35 +110,36 @@ export default function ChatInterface({ character, onBack }: Props) {
   };
 
   const suggestions = [
-    "Tell me about your origins.",
-    "Show me a vision of the future.",
-    "What do you think of humanity?",
-    "How do we sync our minds deeper?"
+    "How was your day?",
+    "Send me a voice note idea.",
+    "What's on your mind lately?",
+    "Tell me something nobody else knows about you."
   ];
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 1.05 }}
+      initial={{ opacity: 0, scale: 1.02 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      className="fixed inset-0 z-50 flex flex-col bg-surface overflow-hidden md:flex-row"
+      exit={{ opacity: 0, scale: 0.98 }}
+      className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-surface md:flex-row"
     >
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,0.1),transparent_50%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(201,113,125,0.12),transparent)]" />
 
-      {/* Sidebar */}
-      <div className="w-full border-b border-white/10 p-6 md:w-96 md:border-b-0 md:border-r flex flex-col glass backdrop-blur-3xl">
-        <div className="flex items-center justify-between mb-8">
+      {/* Profile rail — dating / social profile feel */}
+      <div className="flex w-full flex-col border-b border-white/[0.06] p-6 glass backdrop-blur-2xl md:w-[22rem] md:border-b-0 md:border-r">
+        <div className="mb-8 flex items-center justify-between">
             <button
+            type="button"
             onClick={onBack}
-            className="flex items-center gap-2 text-sm font-medium text-white/40 transition-colors hover:text-white"
+            className="flex items-center gap-2 text-sm font-medium text-stone-400 transition-colors hover:text-stone-100"
             >
             <ArrowLeft size={16} />
-            Disconnect
+            Back
             </button>
             <button 
+                type="button"
                 onClick={() => setShowSettings(!showSettings)}
-                className={`p-2 rounded-lg transition-all ${showSettings ? "bg-accent text-white" : "text-white/40 hover:bg-white/5 hover:text-white"}`}
+                className={`rounded-xl p-2 transition-all ${showSettings ? "bg-accent text-white" : "text-stone-400 hover:bg-white/[0.06] hover:text-stone-100"}`}
             >
                 <Settings size={18} />
             </button>
@@ -148,32 +147,32 @@ export default function ChatInterface({ character, onBack }: Props) {
 
         <div className="flex flex-col items-center text-center">
           <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="relative mb-6 h-48 w-48 overflow-hidden rounded-[2.5rem] border-2 border-accent/20 p-1 bg-gradient-to-br from-accent/20 to-blue-500/20 shadow-2xl shadow-accent/10"
+            whileHover={{ scale: 1.02 }}
+            className="relative mb-5 h-44 w-44 overflow-hidden rounded-[2rem] border border-white/10 bg-stone-800/40 p-1 shadow-xl shadow-black/20"
           >
-            <img src={character.image} className="h-full w-full rounded-[2.2rem] object-cover" />
-            <div className="absolute bottom-4 right-4 h-4 w-4 rounded-full border-2 border-surface bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+            <img src={character.image} alt="" className="h-full w-full rounded-[1.75rem] object-cover" />
+            <div className="absolute bottom-3 right-3 h-3.5 w-3.5 rounded-full border-2 border-surface bg-emerald-400 shadow-[0_0_0_2px_rgba(16,185,129,0.35)]" />
           </motion.div>
           
-          <h2 className="font-serif text-3xl font-bold mb-1">{character.name}</h2>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
-                {character.role}
-            </span>
-            <div className="h-1 w-1 rounded-full bg-white/20" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-                Lvl 44 Neural Core
-            </span>
-          </div>
+          <h2 className="mb-1 font-serif text-2xl font-bold text-stone-50">{character.name}</h2>
+          <p className="mb-3 text-xs font-medium uppercase tracking-[0.12em] text-accent">{character.role}</p>
+          <span className="mb-5 inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold text-stone-300">
+            Close Friend
+          </span>
           
-          <div className="w-full p-4 rounded-2xl bg-white/5 border border-white/5 text-left mb-6">
-            <h4 className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-2 flex items-center gap-1">
-                <Shield size={10} /> Active Protocols
+          <div className="mb-6 w-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4 text-left">
+            <h4 className="mb-2.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+                Vibe
             </h4>
-            <div className="flex flex-wrap gap-2 text-[11px]">
-                <span className="px-2 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">Empathy-V3</span>
-                <span className="px-2 py-1 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">Logic-Core</span>
-                <span className="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Synced</span>
+            <div className="flex flex-wrap gap-2">
+                {PERSONALITY_TAGS.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-accent/20 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-rose-100/95"
+                  >
+                    {tag}
+                  </span>
+                ))}
             </div>
           </div>
         </div>
@@ -186,81 +185,64 @@ export default function ChatInterface({ character, onBack }: Props) {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                 >
-                    <div className="p-4 rounded-2xl bg-accent/5 border border-accent/20 mb-6 space-y-4">
+                    <div className="mb-6 space-y-4 rounded-2xl border border-accent/20 bg-accent/5 p-4">
                         <button 
+                            type="button"
                             onClick={clearChat}
-                            className="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400 hover:bg-red-400/10 rounded-xl transition-colors"
+                            className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-semibold text-rose-300 transition-colors hover:bg-red-500/10"
                         >
-                            <Trash2 size={14} /> Wipe Session Buffer
+                            <Trash2 size={14} /> Clear chat history
                         </button>
                     </div>
                 </motion.div>
             )}
         </AnimatePresence>
 
-        <div className="mt-auto pt-8">
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2 text-xs text-white/40">
-                    <Wifi size={14} className="text-emerald-500" />
-                    <span>Secure Link Active</span>
-                </div>
-                <span className="text-[10px] font-mono text-white/20">v2.1.0-sync</span>
-            </div>
-            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                <motion.div 
-                    initial={{ width: "0%" }}
-                    animate={{ width: "65%" }}
-                    className="h-full bg-gradient-to-r from-blue-500 to-accent"
-                />
-            </div>
+        <div className="mt-auto border-t border-white/[0.06] pt-6">
+            <p className="text-center text-[11px] leading-relaxed text-stone-500">
+              Private chat · Encrypted in transit
+            </p>
         </div>
       </div>
 
-      {/* Main Chat Window */}
-      <div className="relative flex flex-1 flex-col overflow-hidden bg-[rgba(255,255,255,0.01)]">
-        {/* Header Bar */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-white/5 bg-surface/50 backdrop-blur-md z-10">
+      {/* Main chat */}
+      <div className="relative flex flex-1 flex-col overflow-hidden bg-stone-950/40">
+        <div className="z-10 flex items-center justify-between border-b border-white/[0.06] bg-surface/70 px-5 py-4 backdrop-blur-xl md:px-8 md:py-5">
             <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl glass border-accent/20">
-                    <Bot size={20} className="text-accent" />
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-accent/25">
+                    <img src={character.image} alt="" className="h-full w-full object-cover" />
                 </div>
                 <div>
-                    <h3 className="font-bold text-lg">{character.name}</h3>
-                    <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-bold uppercase tracking-widest">
-                        <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Synchronized
+                    <h3 className="font-semibold text-stone-50">{character.name}</h3>
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-400/95">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        Online now
                     </div>
-                </div>
-            </div>
-            <div className="flex items-center gap-4 text-white/40">
-                <div className="flex items-center gap-1 text-xs">
-                    <Cpu size={14} />
-                    <span>0.12ms Latency</span>
                 </div>
             </div>
         </div>
 
-        {/* Messages */}
         <div 
             ref={scrollRef}
-            className="flex-1 overflow-y-auto p-4 md:p-10 space-y-8 no-scrollbar"
+            className="no-scrollbar flex-1 space-y-4 overflow-y-auto p-4 md:space-y-5 md:p-8"
         >
           {messages.length === 1 && (
-            <div className="flex flex-col items-center justify-center py-20 text-center space-y-6">
-                <div className="h-16 w-16 rounded-3xl glass flex items-center justify-center border-accent/20 animate-bounce">
-                    <Sparkles className="text-accent" size={32} />
+            <div className="flex flex-col items-center justify-center space-y-6 py-16 text-center md:py-24">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/20 bg-accent/10">
+                    <Sparkles className="text-accent" size={26} />
                 </div>
                 <div className="space-y-2">
-                    <h4 className="text-xl font-bold">Initiate Connection</h4>
-                    <p className="text-sm text-white/40 max-w-xs mx-auto">Start chatting with {character.name} or try one of the neural suggestions below.</p>
+                    <h4 className="text-xl font-semibold text-stone-50">Say hi to {character.name}</h4>
+                    <p className="mx-auto max-w-sm text-sm text-stone-400">Start a message or tap a suggestion below.</p>
                 </div>
-                <div className="flex flex-wrap justify-center gap-2 max-w-lg">
+                <div className="flex max-w-lg flex-wrap justify-center gap-2">
                     {suggestions.map((s, i) => (
                         <button
-                            key={i}
+                            type="button"
+                            key={s}
                             onClick={() => handleSend(s)}
-                            className="px-4 py-2 rounded-xl glass border-white/5 text-xs hover:border-accent/40 hover:text-accent transition-all animate-in fade-in slide-in-from-bottom-2 duration-500"
-                            style={{ animationDelay: `${i * 100}ms` }}
+                            className="rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-xs font-medium text-stone-300 transition-all hover:border-accent/35 hover:text-stone-100"
+                            style={{ animationDelay: `${i * 80}ms` }}
                         >
                             {s}
                         </button>
@@ -272,27 +254,31 @@ export default function ChatInterface({ character, onBack }: Props) {
           {messages.map((msg) => (
             <motion.div
               key={msg.id}
-              initial={{ opacity: 0, y: 15, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              className={`flex w-full group ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`flex w-full ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
             >
-              <div className={`flex max-w-[85%] md:max-w-[70%] gap-4 ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
-                <div className={`flex h-10 w-10 shrink-0 mt-1 items-center justify-center rounded-xl shadow-lg ${
-                    msg.sender === "user" 
-                        ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white" 
-                        : "glass border-white/10 text-accent ring-1 ring-accent/20"
-                }`}>
-                  {msg.sender === "user" ? <User size={20} /> : <Zap size={20} />}
+              <div className={`flex max-w-[88%] gap-2.5 md:max-w-[72%] ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
+                <div
+                  className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                    msg.sender === "user"
+                      ? "bg-gradient-to-br from-accent to-violet-warm text-white shadow-md shadow-accent/20"
+                      : "border border-white/10 bg-stone-800 text-stone-200"
+                  }`}
+                >
+                  {msg.sender === "user" ? <User size={16} /> : <span className="text-[11px]">{character.name.charAt(0)}</span>}
                 </div>
-                <div className="space-y-2">
-                    <div className={`rounded-3xl px-6 py-5 text-[15px] leading-relaxed shadow-xl ${
-                        msg.sender === "user" 
-                            ? "bg-accent text-white rounded-tr-none shadow-accent/10" 
-                            : "glass border-white/10 rounded-tl-none bg-white/5 shadow-black/20"
-                    }`}>
+                <div className={`min-w-0 space-y-1 ${msg.sender === "user" ? "items-end" : "items-start"} flex flex-col`}>
+                    <div
+                      className={`max-w-full px-4 py-3 text-[15px] leading-relaxed ${
+                        msg.sender === "user"
+                          ? "rounded-2xl rounded-tr-sm bg-gradient-to-br from-accent to-accent-deep text-white shadow-sm"
+                          : "rounded-2xl rounded-tl-sm border border-white/[0.07] bg-stone-800/90 text-stone-100 shadow-sm backdrop-blur-sm"
+                      }`}
+                    >
                     {msg.text}
                     </div>
-                    <p className={`text-[10px] font-bold uppercase tracking-widest text-white/20 ${msg.sender === "user" ? "text-right" : "text-left"}`}>
+                    <p className={`text-[10px] font-medium tabular-nums text-stone-500 ${msg.sender === "user" ? "pr-1 text-right" : "pl-1 text-left"}`}>
                         {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
                 </div>
@@ -301,30 +287,30 @@ export default function ChatInterface({ character, onBack }: Props) {
           ))}
           {isLoading && (
             <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex justify-start"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex justify-start pl-1"
             >
-               <div className="flex gap-4 px-6 py-5 glass border-white/10 rounded-3xl rounded-tl-none bg-white/5 shadow-xl">
-                    <div className="flex gap-1 items-center">
-                        <div className="h-1.5 w-1.5 bg-accent rounded-full animate-bounce [animation-delay:-0.3s]" />
-                        <div className="h-1.5 w-1.5 bg-accent/60 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                        <div className="h-1.5 w-1.5 bg-accent/30 rounded-full animate-bounce" />
-                    </div>
-                <span className="text-xs font-bold text-accent uppercase tracking-[0.2em] animate-pulse">Neural Processing</span>
+               <div className="inline-flex items-center gap-2 rounded-2xl rounded-tl-sm border border-white/[0.07] bg-stone-800/90 px-4 py-3 shadow-sm backdrop-blur-sm">
+                    <span className="flex gap-1" aria-hidden>
+                        <span className="h-2 w-2 animate-bounce rounded-full bg-stone-400 [animation-duration:0.55s]" />
+                        <span className="h-2 w-2 animate-bounce rounded-full bg-stone-400 [animation-delay:0.12s] [animation-duration:0.55s]" />
+                        <span className="h-2 w-2 animate-bounce rounded-full bg-stone-400 [animation-delay:0.24s] [animation-duration:0.55s]" />
+                    </span>
+                    <span className="text-sm text-stone-400">Typing…</span>
                </div>
             </motion.div>
           )}
         </div>
 
-        {/* Suggestions Tray (Floating) */}
         {!isLoading && messages.length > 1 && (
-            <div className="px-8 py-2 overflow-x-auto no-scrollbar flex gap-2">
-                {suggestions.slice(0, 3).map((s, i) => (
+            <div className="no-scrollbar flex gap-2 overflow-x-auto px-4 pb-1 md:px-8">
+                {suggestions.slice(0, 3).map((s) => (
                     <button
-                        key={i}
+                        type="button"
+                        key={s}
                         onClick={() => handleSend(s)}
-                        className="whitespace-nowrap px-3 py-1.5 rounded-lg glass border-white/5 text-[10px] font-bold text-white/40 hover:text-accent hover:border-accent/20 transition-all"
+                        className="whitespace-nowrap rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-1.5 text-[11px] font-medium text-stone-400 transition-all hover:border-accent/25 hover:text-stone-200"
                     >
                         {s}
                     </button>
@@ -332,39 +318,26 @@ export default function ChatInterface({ character, onBack }: Props) {
             </div>
         )}
 
-        {/* Input Block */}
-        <div className="p-4 md:p-10 bg-gradient-to-t from-surface to-transparent">
-          <div className="relative mx-auto max-w-4xl">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-accent/20 blur opacity-20" />
-            <div className="relative flex items-center gap-3">
+        <div className="border-t border-white/[0.05] bg-gradient-to-t from-surface to-transparent p-4 md:p-8 md:pt-6">
+          <div className="relative mx-auto max-w-3xl">
+            <div className="relative flex items-center gap-2">
                 <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder={isLoading ? "Constructing response..." : `Transmit command to ${character.name}...`}
+                placeholder={isLoading ? "…" : `Message ${character.name}…`}
                 disabled={isLoading}
-                className="flex-1 rounded-[2rem] border border-white/10 bg-surface/50 backdrop-blur-xl py-5 pl-8 pr-16 text-[15px] outline-none transition-all focus:border-accent/40 focus:ring-4 focus:ring-accent/5"
+                className="min-h-[52px] flex-1 rounded-[1.75rem] border border-white/[0.1] bg-stone-900/60 py-3.5 pl-5 pr-14 text-[15px] text-stone-100 outline-none transition-all placeholder:text-stone-500 focus:border-accent/35 focus:ring-2 focus:ring-accent/10"
                 />
                 <button
+                type="button"
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isLoading}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/20 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+                className="absolute right-1.5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-white shadow-md shadow-accent/25 transition-all hover:bg-accent-deep active:scale-95 disabled:opacity-45"
                 >
-                {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
+                {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={19} />}
                 </button>
-            </div>
-            
-            <div className="flex items-center justify-center gap-6 mt-4">
-                <div className="flex items-center gap-1.5 text-[9px] font-bold text-white/30 tracking-widest uppercase">
-                    <MessageSquareDashed size={10} />
-                    Tokens Active
-                </div>
-                <div className="h-1 w-1 rounded-full bg-white/20" />
-                <div className="flex items-center gap-1.5 text-[9px] font-bold text-white/30 tracking-widest uppercase">
-                    <Cpu size={10} />
-                    Latency: Low
-                </div>
             </div>
           </div>
         </div>
@@ -372,4 +345,3 @@ export default function ChatInterface({ character, onBack }: Props) {
     </motion.div>
   );
 }
-

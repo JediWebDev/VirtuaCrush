@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { MessageSquare, Heart, Shield, Sparkles, Activity } from "lucide-react";
+import { Heart, Sparkles } from "lucide-react";
 
 export const InteractionDemo = () => {
     const [messages, setMessages] = useState<string[]>([]);
@@ -9,9 +9,9 @@ export const InteractionDemo = () => {
 
     const script = [
         { user: "Hey Seraphina, I had a long day today...", delay: 2000 },
-        { bot: "I can sense the tension in your voice. Let's take a deep breath. I'm here for you.", delay: 3000 },
+        { bot: "I can hear it in your words. Take a breath — I'm right here with you.", delay: 3000 },
         { user: "Thanks. It means a lot that you noticed.", delay: 2000 },
-        { bot: "Always. Your emotional frequency is important to me.", delay: 3000 }
+        { bot: "Always. You matter to me.", delay: 3000 }
     ];
 
     useEffect(() => {
@@ -42,58 +42,55 @@ export const InteractionDemo = () => {
     }, [step]);
 
     return (
-        <div className="relative w-full max-w-[400px] aspect-[9/16] rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/20 mx-auto group">
-            {/* Video Placeholder - In a real app, this would be the uploaded video */}
+        <div className="relative mx-auto aspect-[9/16] w-full max-w-[400px] overflow-hidden rounded-[2.5rem] border border-white/15 shadow-2xl shadow-black/30 group">
             <video 
                 autoPlay 
                 muted 
                 loop 
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
                 poster="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&q=80&w=800"
             >
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-beautiful-woman-smiling-and-looking-at-camera-40082-large.mp4" type="video/mp4" />
             </video>
 
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface/85 via-surface/20 to-transparent" />
 
-            {/* UI Overlays */}
-            <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                {/* Status Indicators */}
-                <div className="absolute top-6 left-6 flex flex-col gap-2">
+            <div className="absolute inset-0 flex flex-col justify-end p-6">
+                <div className="absolute left-6 top-6 flex flex-col gap-2">
                     <motion.div 
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="glass px-3 py-1.5 rounded-full flex items-center gap-2 text-[10px] font-bold text-accent uppercase tracking-wider"
+                        className="glass flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold text-stone-100"
                     >
-                        <div className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-                        Live Neural Link
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        New Post
                     </motion.div>
-                    <motion.div 
-                        initial={{ opacity: 0, x: -20 }}
+                    <motion.button
+                        type="button"
+                        initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="glass px-3 py-1.5 rounded-full flex items-center gap-2 text-[10px] font-bold text-pink-400 uppercase tracking-wider"
+                        transition={{ delay: 0.15 }}
+                        className="glass inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.08] px-3 py-1.5 text-[11px] font-semibold text-stone-50 backdrop-blur-xl"
                     >
-                        <Heart size={10} />
-                        Affinity: 92%
-                    </motion.div>
+                        <Heart size={14} className="text-accent fill-accent/25" strokeWidth={2} />
+                        <span className="tabular-nums">92</span>
+                        <span className="font-normal text-stone-400">likes</span>
+                    </motion.button>
                 </div>
 
-                {/* Chat Messages */}
-                <div className="space-y-3 mb-6">
+                <div className="mb-5 space-y-2.5">
                     <AnimatePresence mode="popLayout">
-                        {messages.slice(-2).map((msg, idx) => (
+                        {messages.slice(-2).map((msg) => (
                             <motion.div
                                 key={msg}
-                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                initial={{ opacity: 0, y: 8, scale: 0.98 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                className={`p-3 rounded-2xl text-xs max-w-[85%] ${
+                                exit={{ opacity: 0, scale: 0.96 }}
+                                className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-snug ${
                                     msg.startsWith("User:") 
-                                    ? "bg-white/10 ml-auto text-white/90 rounded-tr-none" 
-                                    : "glass text-accent border-accent/20 rounded-tl-none font-medium"
+                                    ? "ml-auto rounded-tr-sm bg-gradient-to-br from-accent to-accent-deep text-white shadow-md" 
+                                    : "rounded-tl-sm border border-white/[0.08] bg-stone-900/75 text-stone-100 shadow-sm backdrop-blur-md"
                                 }`}
                             >
                                 {msg.replace(/^(User|Bot): /, '')}
@@ -105,39 +102,40 @@ export const InteractionDemo = () => {
                         <motion.div 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="glass w-12 h-6 flex items-center justify-center gap-1 rounded-full border-accent/20"
+                            className="inline-flex w-fit items-center gap-2 rounded-2xl rounded-tl-sm border border-white/[0.08] bg-stone-900/75 px-3 py-2 backdrop-blur-md"
                         >
-                            <span className="w-1 h-1 bg-accent rounded-full animate-bounce" />
-                            <span className="w-1 h-1 bg-accent rounded-full animate-bounce [animation-delay:0.2s]" />
-                            <span className="w-1 h-1 bg-accent rounded-full animate-bounce [animation-delay:0.4s]" />
+                            <span className="flex gap-1" aria-hidden>
+                                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-duration:0.5s]" />
+                                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:0.15s] [animation-duration:0.5s]" />
+                                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:0.3s] [animation-duration:0.5s]" />
+                            </span>
+                            <span className="text-[11px] text-stone-400">Typing…</span>
                         </motion.div>
                     )}
                 </div>
 
-                {/* Voice Waveform Visualizer */}
-                <div className="h-12 w-full glass border-white/5 rounded-2xl p-3 flex items-center gap-1">
+                <div className="flex h-11 w-full items-center gap-0.5 rounded-2xl border border-white/[0.07] bg-white/[0.06] px-2.5 backdrop-blur-xl">
                     {[...Array(24)].map((_, i) => (
                         <motion.div
                             key={i}
                             animate={{ 
-                                height: [8, Math.random() * 24 + 4, 8],
+                                height: [6, Math.random() * 20 + 4, 6],
                             }}
                             transition={{ 
                                 repeat: Infinity, 
                                 duration: 0.5 + Math.random(),
                                 ease: "easeInOut"
                             }}
-                            className="flex-1 bg-accent/40 rounded-full min-h-[4px]"
+                            className="min-h-[3px] flex-1 rounded-full bg-accent/45"
                         />
                     ))}
                 </div>
             </div>
 
-            {/* Interaction Buttons Overlay (on hover) */}
-            <div className="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm pointer-events-none group-hover:pointer-events-auto">
-                 <button className="bg-white text-surface px-6 py-3 rounded-2xl font-bold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                     <Sparkles size={18} />
-                     Start Interaction
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-accent/0 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:bg-black/35 group-hover:opacity-100 group-hover:backdrop-blur-[2px]">
+                 <button type="button" className="pointer-events-auto flex translate-y-3 transform items-center gap-2 rounded-2xl bg-stone-100 px-6 py-3 font-semibold text-surface shadow-lg transition-transform duration-300 group-hover:translate-y-0">
+                     <Sparkles size={18} className="text-accent" />
+                     Open feed
                  </button>
             </div>
         </div>

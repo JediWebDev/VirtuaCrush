@@ -1,36 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @theme {
-  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  
-  --color-accent: #3b82f6;
-  --color-accent-purple: #8b5cf6;
-  --color-surface: #020617;
-  --color-panel: rgba(255, 255, 255, 0.05);
+  --font-sans: "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+
+  /* Warm dark canvas — deep charcoal with brown undertone */
+  --color-surface: #141210;
+  --color-surface-elevated: #1c1917;
+  /* Romantic accent: rose → usable as primary CTA */
+  --color-accent: #c9717d;
+  --color-accent-deep: #a85a66;
+  --color-accent-muted: #9a6b7a;
+  /* Secondary highlights */
+  --color-rose-soft: #e8b4bc;
+  --color-peach: #e8c4b0;
+  --color-violet-warm: #9d7a9e;
+  --color-panel: rgba(255, 252, 250, 0.06);
 }
 
 @layer base {
   body {
-    @apply bg-surface text-white antialiased selection:bg-accent selection:text-white overflow-x-hidden;
+    @apply bg-surface text-stone-100 antialiased overflow-x-hidden;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  ::selection {
+    @apply bg-accent/25 text-stone-50;
   }
 }
 
 .glass {
-  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  @apply border border-white/[0.08] bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl backdrop-saturate-150;
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-500;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-rose-200 via-[#f0d4c8] to-violet-200;
 }
 
 .hover-glow {
-  @apply transition-all duration-300 hover:shadow-[0_0_40px_rgba(139,92,246,0.3)] hover:border-accent/40;
+  @apply transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_rgba(201,113,125,0.18)];
 }
 
-/* Custom scrollbar */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar — subtle, warm */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -38,5 +57,5 @@
   @apply bg-surface;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-accent/40 transition-colors;
+  @apply rounded-full bg-white/15 transition-colors hover:bg-accent/35;
 }
