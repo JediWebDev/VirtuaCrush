@@ -8,7 +8,7 @@ export const InteractionDemo = () => {
     const [step, setStep] = useState(0);
 
     const script = [
-        { user: "Hey Seraphina, I had a long day today...", delay: 2000 },
+        { user: "Hey Mina, I had a long day today...", delay: 2000 },
         { bot: "I can hear it in your words. Take a breath — I'm right here with you.", delay: 3000 },
         { user: "Thanks. It means a lot that you noticed.", delay: 2000 },
         { bot: "Always. You matter to me.", delay: 3000 }

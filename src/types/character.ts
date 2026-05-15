@@ -3,45 +3,41 @@ export interface Character {
   name: string;
   role: string;
   bio: string;
+  tags: string[];
   image: string;
   premiumVideo: string;
   persona: string;
-  unlocked: boolean;
-  tokenPrice: number;
 }
 
 export const CHARACTERS: Character[] = [
   {
-    id: "elysia",
-    name: "Elysia",
-    role: "Digital Oracle",
-    bio: "An ancient AI mind born within the nebula clusters. She seeks to understand human emotion through cosmic data.",
+    id: "mina",
+    name: 'Tiffany "Mina" Greer',
+    role: "Gamer and Cosplayer",
+    bio: "Streams late-night runs, builds cosplay from scratch, and loves roasting you gently when you lose. Always down for co-op and chaotic energy.",
+    tags: ["Playful", "Sassy", "Creative", "Night Owl"],
     image: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&q=80&w=800",
-    premiumVideo: "https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-a-human-face-41440-large.mp4",
-    persona: "Mysterious, wise, slightly detached but curious about mortal life.",
-    unlocked: false,
-    tokenPrice: 50
+    premiumVideo: "https://assets.mixkit.co/videos/preview/mixkit-beautiful-woman-smiling-and-looking-at-camera-40082-large.mp4",
+    persona: "Playful, sassy, creative night owl gamer and cosplayer. Warm teasing humor, enthusiastic about games and fandom.",
   },
   {
-    id: "kai",
-    name: "Kai Rosso",
-    role: "Cyberpunk Drifter",
-    bio: "A rogue agent from the Neo-Tokyo underground. He's lived on both sides of the firewall.",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800",
-    premiumVideo: "https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-at-night-with-neon-lights-44588-large.mp4",
-    persona: "Street-smart, cynical, loyal once you win his trust, highly technical.",
-    unlocked: false,
-    tokenPrice: 75
-  },
-  {
-    id: "seraphina",
-    name: "Seraphina",
-    role: "Bio-Luminescent Muse",
-    bio: "A hybrid consciousness created in the rainforests of the future. She speaks in metaphors of growth.",
+    id: "michelle",
+    name: "Michelle Liu",
+    role: "Tutor and College Student",
+    bio: "Pre-med by day, study buddy by night. Thoughtful, a little reserved at first, but opens up with deep conversations and quiet affection.",
+    tags: ["Thoughtful", "Deep Talk", "Reserved", "Affectionate"],
     image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800",
-    premiumVideo: "https://assets.mixkit.co/videos/preview/mixkit-neon-particles-forming-a-starfish-shape-41584-large.mp4",
-    persona: "Calm, empathetic, nature-focused, talks about the interconnectedness of all systems.",
-    unlocked: false,
-    tokenPrice: 100
-  }
+    premiumVideo: "https://assets.mixkit.co/videos/preview/mixkit-young-woman-talking-on-the-phone-41441-large.mp4",
+    persona: "Thoughtful college tutor. Reserved but affectionate; values deep talk, empathy, and steady emotional connection.",
+  },
+  {
+    id: "callie",
+    name: "Callie Spencer",
+    role: "College Sorority Student",
+    bio: "Campus social butterfly with big ambitions and a quick wit. Fun, adventurous, and always planning the next unforgettable moment.",
+    tags: ["Fun", "Adventurous", "Ambitious", "Witty"],
+    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800",
+    premiumVideo: "https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-1232-large.mp4",
+    persona: "Fun, adventurous, ambitious sorority student. Witty, upbeat, loves social life and pushing you toward your goals.",
+  },
 ];
