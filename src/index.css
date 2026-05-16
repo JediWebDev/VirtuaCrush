@@ -17,14 +17,39 @@
   --color-panel: rgba(255, 252, 250, 0.06);
 }
 
+/* Dark theme (default) */
+:root {
+  color-scheme: dark;
+}
+
+/* Light theme — overrides surface tokens for utility classes */
+.light-theme {
+  --color-surface: #fafafa;
+  --color-surface-elevated: #f5f5f4;
+  --color-panel: rgba(0, 0, 0, 0.04);
+  color-scheme: light;
+}
+
 @layer base {
+  html {
+    @apply transition-colors duration-300;
+  }
+
   body {
-    @apply bg-surface text-stone-100 antialiased overflow-x-hidden;
+    @apply bg-surface text-stone-100 antialiased overflow-x-hidden transition-colors duration-300;
     font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  .light-theme body {
+    @apply text-stone-900;
   }
 
   ::selection {
     @apply bg-accent/25 text-stone-50;
+  }
+
+  .light-theme ::selection {
+    @apply bg-accent/20 text-stone-900;
   }
 }
 
@@ -33,11 +58,19 @@
 }
 
 .glass {
-  @apply border border-white/[0.08] bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl backdrop-saturate-150;
+  @apply border border-white/[0.08] bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl backdrop-saturate-150 transition-colors duration-300;
+}
+
+.light-theme .glass {
+  @apply border-black/10 bg-black/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.06)];
 }
 
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-rose-200 via-[#f0d4c8] to-violet-200;
+}
+
+.light-theme .text-gradient {
+  @apply from-accent via-accent-deep to-violet-warm;
 }
 
 .hover-glow {
@@ -56,8 +89,37 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-surface;
+  @apply bg-surface transition-colors duration-300;
 }
 ::-webkit-scrollbar-thumb {
   @apply rounded-full bg-white/15 transition-colors hover:bg-accent/35;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+  @apply bg-black/15 hover:bg-accent/40;
+}
+
+.light-theme header .border-white\/10 {
+  border-color: rgb(0 0 0 / 0.1);
+}
+
+.light-theme header .bg-white\/\[0\.04\] {
+  background-color: rgb(0 0 0 / 0.04);
+}
+
+.light-theme header .text-stone-300 {
+  @apply text-stone-600;
+}
+
+.light-theme header .hover\:text-stone-50:hover,
+.light-theme header .hover\:text-stone-100:hover {
+  @apply text-stone-900;
+}
+
+.light-theme header .text-stone-100 {
+  @apply text-stone-900;
+}
+
+.light-theme header .text-stone-400 {
+  @apply text-stone-600;
 }

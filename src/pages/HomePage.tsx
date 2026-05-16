@@ -183,11 +183,12 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
             </div>
             <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Two layers, one experience</h2>
             <p className="mx-auto mt-3 max-w-2xl text-stone-400">
-              VirtuaCrush separates in-app spending from the open market so companionship stays stable while $CRUSH powers the broader ecosystem. </p>
+              VirtuaCrush separates in-app spending from the open market so companionship stays stable while $VCRUSH powers the broader ecosystem.
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <article className="rounded-2xl border border-white/[0.08] glass p-8">
-              <h3 className="mb-1 text-xl font-semibold text-stone-50">1. Virtua Tokens (IN-APP ONLY)</h3>
+              <h3 className="mb-1 text-xl font-semibold text-stone-50">1. $VLINK (IN-APP ONLY)</h3>
               <p className="mb-4 text-sm font-medium text-accent">Non-tradable · Stable · Closed-loop economy</p>
               <p className="mb-4 text-sm text-stone-400">Used for:</p>
               <ul className="mb-6 space-y-2 text-sm text-stone-300">
@@ -196,25 +197,25 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
                 <li>· Gifting</li>
               </ul>
               <p className="rounded-xl border border-accent/20 bg-accent/5 px-4 py-3 text-sm font-medium text-rose-100/90">
-                Key rule: Price of experiences is ALWAYS in Virtua Tokens.
+                Key rule: Price of experiences is ALWAYS in $VLINK.
               </p>
             </article>
             <article className="rounded-2xl border border-violet-warm/25 glass p-8">
-              <h3 className="mb-1 text-xl font-semibold text-stone-50">2. $CRUSH (EXTERNAL TOKEN)</h3>
+              <h3 className="mb-1 text-xl font-semibold text-stone-50">2. $VCRUSH (EXTERNAL TOKEN)</h3>
               <p className="mb-4 text-sm font-medium text-violet-warm">
                 100% Optional. Market-driven. Open economy.
               </p>
               <p className="mb-4 text-sm leading-relaxed text-stone-400">
-                 Holding and using our optional $CRUSH token unlocks premium ecosystem advantages.
+                 Holding and using our optional $VCRUSH token unlocks premium ecosystem advantages.
               </p>
               <p className="mb-2 text-sm text-stone-400">Used for:</p>
               <ul className="mb-6 space-y-2 text-sm text-stone-300">
-                <li>· Buying Virtua Tokens at a discount</li>
+                <li>· Buying $VLINK at a discount</li>
                 <li>· Staking for perks</li>
                 <li>· VIP status</li>
               </ul>
               <p className="rounded-xl border border-violet-warm/25 bg-violet-warm/10 px-4 py-3 text-sm font-medium leading-relaxed text-stone-200">
-                Key rule: $CRUSH is an optional upgrade path that rewards our most dedicated community members, but never directly prices in-app
+                Key rule: $VCRUSH is an optional upgrade path that rewards our most dedicated community members, but never directly prices in-app
                 experiences.
               </p>
             </article>

@@ -266,29 +266,29 @@ export default function HowItWorksPage() {
           <SectionShell title="Optional Web3 Integration">
             <GlassPanel>
               <p className="mb-8 max-w-3xl leading-relaxed text-stone-300">
-                Crypto is optional—cards and standard checkout work out of the box. For collectors and power
-                users, VirtuaCrush supports a dual-token layer that separates volatile upside from stable
-                spending.
+                Crypto is optional—cards and standard checkout work out of the box. VirtuaCrush uses two tokens:
+                $VCRUSH for open-market speculation and $VLINK for stable, closed-loop spending inside the app.
               </p>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5">
                   <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-accent/15 text-accent">
                     <Coins size={22} />
                   </div>
-                  <h3 className="font-semibold text-stone-100">Tradeable Token ($CRUSH)</h3>
+                  <h3 className="font-semibold text-stone-100">$VCRUSH (Tradeable Utility)</h3>
                   <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                    The ecosystem utility token, tradable on open exchanges. Earn through engagement, gifts, and
-                    events—or buy on the market.
+                    The speculative utility token listed on open exchanges. Earn through engagement, trade on the
+                    market, or hold for ecosystem perks—separate from day-to-day companion purchases.
                   </p>
                 </div>
                 <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5">
                   <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
                     <ArrowRightLeft size={22} />
                   </div>
-                  <h3 className="font-semibold text-stone-100">Stable Token</h3>
+                  <h3 className="font-semibold text-stone-100">$VLINK (Closed-Loop Stable)</h3>
                   <p className="mt-2 text-sm leading-relaxed text-stone-400">
-                    Pegged 1:1 with USDC so subscriptions and gifts don&apos;t swing with market mood. Swap $CRUSH
-                    into Stable to lock value, then spend confidently on plans or surprises.
+                    Used exclusively for in-app purchases and subscriptions. Pegged for stable pricing so gifts,
+                    plans, and upgrades never swing with crypto volatility. Swap $VCRUSH into $VLINK when you want
+                    to lock value before spending.
                   </p>
                 </div>
               </div>

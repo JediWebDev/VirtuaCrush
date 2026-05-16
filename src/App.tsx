@@ -40,7 +40,8 @@ function ChatDeepLink({ onSelect }: { onSelect: (char: Character) => void }) {
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [tokens] = useState(150);
+  const [vCrushTokens] = useState(150);
+  const [vLinkTokens] = useState(500);
   const [activeChat, setActiveChat] = useState<Character | null>(null);
   const [activeVideo, setActiveVideo] = useState<Character | null>(null);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
@@ -91,7 +92,8 @@ export default function App() {
       <Nav
         isWalletConnected={isWalletConnected}
         walletAddress={walletAddress}
-        tokens={tokens}
+        vCrushTokens={vCrushTokens}
+        vLinkTokens={vLinkTokens}
         onConnectWallet={connectWallet}
       />
 
@@ -170,7 +172,7 @@ const CTASection = () => (
       <div className="absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 -translate-y-1/2 bg-accent/15 blur-3xl" />
       <h2 className="mb-6 font-serif text-4xl font-bold md:text-5xl">Secure Early Access</h2>
       <p className="mx-auto mb-10 max-w-xl text-stone-400">
-        Sign up to be notified of our $CRUSH pre-sale token launch and receive immediate priority for the limited Beta release.
+        Sign up to be notified of our $VCRUSH pre-sale token launch and receive immediate priority for the limited Beta release.
       </p>
       <div className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row">
         <input
