@@ -41,7 +41,7 @@ const PRICING_TIERS = [
     period: "/ month",
     highlight: false,
     features: [
-      '"Personalized messages for special dates"',
+      '"Personalized messages"',
       "Special character arcs",
       "Seasonal story drops",
       "Exclusive voice & video drops",
@@ -183,7 +183,7 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
             </div>
             <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Two layers, one experience</h2>
             <p className="mx-auto mt-3 max-w-2xl text-stone-400">
-              VirtuaCrush separates in-app spending from the open market so companionship stays stable while $CRUSH powers the broader ecosystem. Using the Web3 utility token is optional and traditional fiat payments will always be accepted for users who wish to opt out of the Web3 economy. </p>
+              VirtuaCrush separates in-app spending from the open market so companionship stays stable while $CRUSH powers the broader ecosystem. </p>
           </div>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <article className="rounded-2xl border border-white/[0.08] glass p-8">
