@@ -67,7 +67,6 @@ interface Props {
 }
 
 export default function ChatInterface({ character, onBack, onAffinityChange }: Props) {
-  const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -76,6 +75,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
   const [feedOpen, setFeedOpen] = useState(false);
   const [activeMessage, setActiveMessage] = useState<typeof DEMO_AUDIO_MESSAGE | null>(null);
   const [affinity, setAffinity] = useState(character.currentAffinity);
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const characterWithAffinity: Character = { ...character, currentAffinity: affinity };
@@ -185,11 +185,6 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
     );
   });
 
-  const handleBack = () => {
-    onBack();
-    navigate("/");
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 1.02 }}
@@ -204,7 +199,10 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
         <div className="mb-8 flex items-center justify-between">
             <button
             type="button"
-            onClick={handleBack}
+            onClick={() => {
+              onBack();
+              navigate("/");
+            }}
             className="flex items-center gap-2 text-sm font-medium text-stone-400 transition-colors hover:text-stone-100"
             >
             <ArrowLeft size={16} />
