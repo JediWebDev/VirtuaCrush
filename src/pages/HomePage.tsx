@@ -29,7 +29,7 @@ const PRICING_TIERS = [
     highlight: true,
     features: [
       "Enhanced memory",
-      "Daily voice notes",
+      "Voice messages",
       "Premium feed access",
       "Relationship progression",
       "Higher message cap",
@@ -41,7 +41,7 @@ const PRICING_TIERS = [
     period: "/ month",
     highlight: false,
     features: [
-      'Limited "relationship events"',
+      '"Personalized messages for special dates"',
       "Special character arcs",
       "Seasonal story drops",
       "Exclusive voice & video drops",
@@ -183,8 +183,7 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
             </div>
             <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Two layers, one experience</h2>
             <p className="mx-auto mt-3 max-w-2xl text-stone-400">
-              VirtuaCrush separates in-app spending from the open market so companionship stays stable while $CRUSH powers the broader ecosystem.
-            </p>
+              VirtuaCrush separates in-app spending from the open market so companionship stays stable while $CRUSH powers the broader ecosystem. Using the Web3 utility token is optional and traditional fiat payments will always be accepted for users who wish to opt out of the Web3 economy. </p>
           </div>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <article className="rounded-2xl border border-white/[0.08] glass p-8">
@@ -192,11 +191,9 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
               <p className="mb-4 text-sm font-medium text-accent">Non-tradable · Stable · Closed-loop economy</p>
               <p className="mb-4 text-sm text-stone-400">Used for:</p>
               <ul className="mb-6 space-y-2 text-sm text-stone-300">
-                <li>· Chats</li>
-                <li>· Premium messages</li>
-                <li>· Media unlocks</li>
-                <li>· Character progression</li>
-                <li>· Relationship events</li>
+                <li>· Subscriptions</li>
+                <li>· Profile customization</li>
+                <li>· Gifting</li>
               </ul>
               <p className="rounded-xl border border-accent/20 bg-accent/5 px-4 py-3 text-sm font-medium text-rose-100/90">
                 Key rule: Price of experiences is ALWAYS in Virtua Tokens.
@@ -208,20 +205,16 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
                 100% Optional. Market-driven. Open economy.
               </p>
               <p className="mb-4 text-sm leading-relaxed text-stone-400">
-                You can always use traditional payments (credit cards/fiat) for everything in VirtuaCrush.
-                However, holding and using our optional $CRUSH token unlocks premium ecosystem advantages.
+                 Holding and using our optional $CRUSH token unlocks premium ecosystem advantages.
               </p>
               <p className="mb-2 text-sm text-stone-400">Used for:</p>
               <ul className="mb-6 space-y-2 text-sm text-stone-300">
                 <li>· Buying Virtua Tokens at a discount</li>
                 <li>· Staking for perks</li>
-                <li>· Unlocking exclusive tiers</li>
-                <li>· Governance / character influence</li>
                 <li>· VIP status</li>
               </ul>
               <p className="rounded-xl border border-violet-warm/25 bg-violet-warm/10 px-4 py-3 text-sm font-medium leading-relaxed text-stone-200">
-                Key rule: Fiat payments are always accepted. $CRUSH is an optional upgrade path that
-                rewards our most dedicated community members, but never directly prices in-app
+                Key rule: $CRUSH is an optional upgrade path that rewards our most dedicated community members, but never directly prices in-app
                 experiences.
               </p>
             </article>
