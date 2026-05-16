@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { Character, CHARACTERS } from "./types/character";
@@ -23,7 +23,22 @@ declare global {
   }
 }
 
+function ChatDeepLink({ onSelect }: { onSelect: (char: Character) => void }) {
+  const { characterId } = useParams();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const char = CHARACTERS.find((c) => c.id === characterId);
+    if (char) onSelect(char);
+    else navigate("/", { replace: true });
+  }, [characterId, onSelect, navigate]);
+
+  return null;
+}
+
 export default function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [tokens] = useState(150);
   const [activeChat, setActiveChat] = useState<Character | null>(null);
   const [activeVideo, setActiveVideo] = useState<Character | null>(null);
@@ -81,6 +96,7 @@ export default function App() {
           element={<BrowseCharactersPage onSelect={handleSelect} onWatch={handleWatch} />}
         />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/chat/:characterId" element={<ChatDeepLink onSelect={handleSelect} />} />
       </Routes>
 
       <AnimatePresence>
@@ -119,7 +135,12 @@ export default function App() {
         {activeChat && (
           <ChatInterface
             character={activeChat}
-            onBack={() => setActiveChat(null)}
+            onBack={() => {
+              setActiveChat(null);
+              if (location.pathname.startsWith("/chat")) {
+                navigate("/");
+              }
+            }}
             onAffinityChange={handleAffinityChange}
           />
         )}

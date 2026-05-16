@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Send, User, ArrowLeft, Loader2, Settings, Trash2, Sparkles, LayoutGrid, X } from "lucide-react";
+import { Send, User, ArrowLeft, Loader2, Settings, Trash2, Sparkles, LayoutGrid, X, Play, Lock } from "lucide-react";
 import { Character, buildRivalrySystemContext } from "../types/character";
 import SocialFeed from "./SocialFeed";
 
@@ -14,6 +14,24 @@ interface Message {
   timestamp: Date;
 }
 
+type PrivateMessage = {
+  id: string;
+  title: string;
+  locked: boolean;
+  duration?: string;
+};
+
+const PRIVATE_MESSAGES: PrivateMessage[] = [
+  { id: "audio-1", title: "Audio Message - 0:14", locked: false, duration: "0:14" },
+  { id: "video-1", title: "Video Update", locked: true },
+  { id: "pic-1", title: "Picture", locked: true },
+];
+
+const DEMO_AUDIO_MESSAGE = {
+  title: "Audio Message - 0:14",
+  caption: "I couldn't sleep, so I just wanted to say hi...",
+};
+
 interface Props {
   character: Character;
   onBack: () => void;
@@ -26,6 +44,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [feedOpen, setFeedOpen] = useState(false);
+  const [activeMessage, setActiveMessage] = useState<typeof DEMO_AUDIO_MESSAGE | null>(null);
   const [affinity, setAffinity] = useState(character.currentAffinity);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -195,6 +214,53 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
                   </span>
                 ))}
             </div>
+          </div>
+
+          <div className="mb-6 w-full rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4 text-left">
+            <h4 className="mb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+              Private Messages
+            </h4>
+            <ul className="space-y-2">
+              {PRIVATE_MESSAGES.map((item) => (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    disabled={item.locked}
+                    title={item.locked ? "Subscription Required" : undefined}
+                    onClick={() => {
+                      if (!item.locked) {
+                        setActiveMessage(DEMO_AUDIO_MESSAGE);
+                      }
+                    }}
+                    className={`relative flex w-full items-center gap-3 rounded-xl border border-white/[0.06] px-3 py-2.5 text-left transition-colors ${
+                      item.locked
+                        ? "cursor-not-allowed"
+                        : "hover:border-accent/25 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    {item.locked ? (
+                      <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-sm">
+                        <Lock size={16} className="text-stone-400" />
+                      </div>
+                    ) : null}
+                    <span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                        item.locked ? "bg-stone-800/60" : "bg-accent/15 text-accent"
+                      }`}
+                    >
+                      {item.locked ? (
+                        <Lock size={14} className="text-stone-500" />
+                      ) : (
+                        <Play size={14} fill="currentColor" />
+                      )}
+                    </span>
+                    <span className={`text-sm font-medium ${item.locked ? "text-stone-500" : "text-stone-200"}`}>
+                      {item.title}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
@@ -409,6 +475,73 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
             </motion.div>
           </>
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {activeMessage ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            onClick={() => setActiveMessage(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              className="relative w-full max-w-md rounded-3xl border border-white/10 bg-surface p-6 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveMessage(null)}
+                className="absolute right-4 top-4 rounded-lg p-1.5 text-stone-400 transition-colors hover:bg-white/[0.06] hover:text-stone-100"
+                aria-label="Close message"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="mb-5 flex items-center gap-3 pr-8">
+                <img
+                  src={character.image}
+                  alt=""
+                  className="h-12 w-12 rounded-full object-cover ring-2 ring-accent/25"
+                />
+                <div className="text-left">
+                  <p className="font-semibold text-stone-50">{character.name}</p>
+                  <p className="text-xs text-stone-500">{activeMessage.title}</p>
+                </div>
+              </div>
+
+              <div className="mb-5 flex h-14 items-end justify-center gap-1 rounded-2xl border border-white/[0.06] bg-white/[0.03] px-4 py-3">
+                {Array.from({ length: 28 }, (_, i) => (
+                  <span
+                    key={i}
+                    className="w-1 rounded-full bg-accent/70"
+                    style={{ height: `${28 + Math.sin(i * 0.55) * 22}%` }}
+                  />
+                ))}
+              </div>
+
+              <div className="mb-4 flex items-center gap-3">
+                <button
+                  type="button"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-white shadow-md shadow-accent/25"
+                  aria-label="Play audio message"
+                >
+                  <Play size={18} fill="currentColor" />
+                </button>
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full w-1/3 rounded-full bg-accent" />
+                </div>
+                <span className="text-xs tabular-nums text-stone-500">0:14</span>
+              </div>
+
+              <p className="text-sm leading-relaxed text-stone-300">{activeMessage.caption}</p>
+            </motion.div>
+          </motion.div>
+        ) : null}
       </AnimatePresence>
 
     </motion.div>

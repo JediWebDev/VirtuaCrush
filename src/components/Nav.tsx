@@ -1,4 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Wallet, Sparkles, User, Mail } from "lucide-react";
 
 interface NavProps {
@@ -15,7 +16,26 @@ export default function Nav({
   onConnectWallet,
 }: NavProps) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const notificationsRef = useRef<HTMLDivElement>(null);
   const browseActive = pathname === "/characters";
+
+  useEffect(() => {
+    if (!isNotificationsOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+        setIsNotificationsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isNotificationsOpen]);
+
+  const openCallieChat = () => {
+    setIsNotificationsOpen(false);
+    navigate("/chat/callie");
+  };
 
   return (
     <header className="relative z-10 flex items-center justify-between px-6 py-8 md:px-12">
@@ -60,19 +80,46 @@ export default function Nav({
         </button>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
-          <Link
-            to="/account#notifications"
-            className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition-all hover:border-accent/30 hover:bg-white/[0.08] hover:text-stone-50"
-            aria-label="Messages and notifications"
-          >
-            <Mail size={20} />
-            <span
-              className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold leading-none text-white ring-2 ring-surface"
-              aria-hidden
+          <div ref={notificationsRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setIsNotificationsOpen((open) => !open)}
+              className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition-all hover:border-accent/30 hover:bg-white/[0.08] hover:text-stone-50"
+              aria-label="Messages and notifications"
+              aria-expanded={isNotificationsOpen}
             >
-              1
-            </span>
-          </Link>
+              <Mail size={20} />
+              <span
+                className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold leading-none text-white ring-2 ring-surface"
+                aria-hidden
+              >
+                1
+              </span>
+            </button>
+
+            {isNotificationsOpen ? (
+              <div
+                className="absolute right-0 top-full z-50 mt-2 w-80 rounded-2xl border border-white/10 bg-surface shadow-2xl"
+                role="menu"
+              >
+                <div className="border-b border-white/[0.06] px-4 py-3">
+                  <h3 className="text-sm font-semibold text-stone-100">Notifications</h3>
+                </div>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={openCallieChat}
+                  className="flex w-full flex-col gap-0.5 px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-sm font-semibold text-stone-100">Callie Spencer</span>
+                    <span className="shrink-0 text-[11px] text-stone-500">Just now</span>
+                  </div>
+                  <span className="text-sm text-stone-400">Are you awake? 🥺</span>
+                </button>
+              </div>
+            ) : null}
+          </div>
 
           <Link
             to="/account"

@@ -108,12 +108,9 @@ interface SocialFeedProps {
 
 export default function SocialFeed({ character, className = "", isActive = true }: SocialFeedProps) {
   const name = displayName(character.name);
-  const visiblePosts = character.feedPosts
-    .filter((p) => character.currentAffinity >= p.requiredAffinity)
-    .sort((a, b) => a.requiredAffinity - b.requiredAffinity);
-
-  const teaser = visiblePosts[0];
-  const locked = visiblePosts.slice(1);
+  const feedPosts = character.feedPosts.slice(0, 4);
+  const teaser = feedPosts[0];
+  const locked = feedPosts.slice(1);
 
   return (
     <aside className={`flex h-full flex-col border-white/[0.06] bg-stone-950/30 ${className}`}>
@@ -133,23 +130,23 @@ export default function SocialFeed({ character, className = "", isActive = true 
           <PostCard post={teaser} character={character} isLive={isActive} />
         )}
         {locked.length > 0 && (
-          <div className="relative mt-4">
-            <div className="space-y-4 blur-md select-none pointer-events-none" aria-hidden>
+          <div className="relative mt-4 overflow-hidden">
+            <div className="space-y-4 opacity-40 blur-md select-none pointer-events-none" aria-hidden>
               {locked.map((post) => (
                 <PostCard key={post.id} post={post} character={character} isLive={false} />
               ))}
             </div>
-            <div className="absolute inset-0 flex min-h-[320px] items-center justify-center rounded-2xl">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-stone-950/10 via-stone-950/80 to-stone-950 backdrop-blur-md" />
-              <div className="relative z-10 mx-4 max-w-[280px] rounded-3xl border border-accent/25 bg-gradient-to-br from-stone-900/95 via-stone-950 to-accent/15 p-6 text-center shadow-xl">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/15 text-accent">
-                  <Lock size={22} strokeWidth={1.75} />
-                </div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">Subscription locked</p>
-                <h3 className="mt-2 font-serif text-lg font-semibold leading-snug text-stone-50">Unlock {name}&apos;s private feed</h3>
-                <p className="mt-2 text-xs leading-relaxed text-stone-400">Upgrade to the Subscription Tier to see daily photos, voice notes, and exclusive videos.</p>
-                <button type="button" className="mt-5 w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white shadow-md shadow-accent/25 hover:bg-accent-deep">Upgrade to view</button>
-              </div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-surface via-surface/80 to-transparent">
+              <Lock size={32} strokeWidth={1.75} className="mb-4 text-accent" />
+              <p className="max-w-xs text-center text-sm text-stone-300">
+                Subscribe to unlock exclusive and private video and audio updates.
+              </p>
+              <button
+                type="button"
+                className="mt-5 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white shadow-md shadow-accent/25 transition-colors hover:bg-accent-deep"
+              >
+                Upgrade to View
+              </button>
             </div>
           </div>
         )}
