@@ -18,7 +18,16 @@ export default function Nav({
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [hasUnread, setHasUnread] = useState(true);
   const notificationsRef = useRef<HTMLDivElement>(null);
+
+  const toggleNotifications = () => {
+    setIsNotificationsOpen((open) => {
+      const next = !open;
+      if (next) setHasUnread(false);
+      return next;
+    });
+  };
   const browseActive = pathname === "/characters";
 
   useEffect(() => {
@@ -83,18 +92,20 @@ export default function Nav({
           <div ref={notificationsRef} className="relative">
             <button
               type="button"
-              onClick={() => setIsNotificationsOpen((open) => !open)}
+              onClick={toggleNotifications}
               className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition-all hover:border-accent/30 hover:bg-white/[0.08] hover:text-stone-50"
               aria-label="Messages and notifications"
               aria-expanded={isNotificationsOpen}
             >
               <Mail size={20} />
-              <span
-                className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold leading-none text-white ring-2 ring-surface"
-                aria-hidden
-              >
-                1
-              </span>
+              {hasUnread ? (
+                <span
+                  className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white ring-2 ring-surface"
+                  aria-hidden
+                >
+                  1
+                </span>
+              ) : null}
             </button>
 
             {isNotificationsOpen ? (

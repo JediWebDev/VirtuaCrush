@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Send, User, ArrowLeft, Loader2, Settings, Trash2, Sparkles, LayoutGrid, X, Play, Lock } from "lucide-react";
+import { Send, User, ArrowLeft, Loader2, Sparkles, LayoutGrid, X, Play, Lock, History, Search } from "lucide-react";
 import { Character, buildRivalrySystemContext } from "../types/character";
 import SocialFeed from "./SocialFeed";
 
@@ -32,6 +33,33 @@ const DEMO_AUDIO_MESSAGE = {
   caption: "I couldn't sleep, so I just wanted to say hi...",
 };
 
+const CHAT_HISTORY_ARCHIVE = [
+  {
+    id: "hist-1",
+    date: "May 15, 2026",
+    title: "Late night thoughts about the future",
+    preview: "You: I keep thinking about where we'll be in five years...",
+  },
+  {
+    id: "hist-2",
+    date: "May 12, 2026",
+    title: "Game day and chapter brunch plans",
+    preview: "Callie: OMG you have to see this fit before brunch 🥂",
+  },
+  {
+    id: "hist-3",
+    date: "May 8, 2026",
+    title: "Voice note ideas and study break",
+    preview: "You: Send me a voice note when you get a sec?",
+  },
+  {
+    id: "hist-4",
+    date: "April 30, 2026",
+    title: "First conversation",
+    preview: "You: Hey — glad we matched on here.",
+  },
+];
+
 interface Props {
   character: Character;
   onBack: () => void;
@@ -39,10 +67,12 @@ interface Props {
 }
 
 export default function ChatInterface({ character, onBack, onAffinityChange }: Props) {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [showHistoryView, setShowHistoryView] = useState(false);
+  const [historySearch, setHistorySearch] = useState("");
   const [feedOpen, setFeedOpen] = useState(false);
   const [activeMessage, setActiveMessage] = useState<typeof DEMO_AUDIO_MESSAGE | null>(null);
   const [affinity, setAffinity] = useState(character.currentAffinity);
@@ -138,23 +168,27 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
     }
   };
 
-  const clearChat = () => {
-    if (confirm("Clear this conversation?")) {
-      setMessages([{
-        id: "reset",
-        text: "Chat history cleared.",
-        sender: "bot",
-        timestamp: new Date()
-      }]);
-    }
-  };
-
   const suggestions = [
     "How was your day?",
     "Send me a voice note idea.",
     "What's on your mind lately?",
     "Tell me something nobody else knows about you."
   ];
+
+  const filteredHistory = CHAT_HISTORY_ARCHIVE.filter((item) => {
+    const q = historySearch.trim().toLowerCase();
+    if (!q) return true;
+    return (
+      item.title.toLowerCase().includes(q) ||
+      item.preview.toLowerCase().includes(q) ||
+      item.date.toLowerCase().includes(q)
+    );
+  });
+
+  const handleBack = () => {
+    onBack();
+    navigate("/");
+  };
 
   return (
     <motion.div
@@ -170,18 +204,20 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
         <div className="mb-8 flex items-center justify-between">
             <button
             type="button"
-            onClick={onBack}
+            onClick={handleBack}
             className="flex items-center gap-2 text-sm font-medium text-stone-400 transition-colors hover:text-stone-100"
             >
             <ArrowLeft size={16} />
             Back
             </button>
-            <button 
+            <button
                 type="button"
-                onClick={() => setShowSettings(!showSettings)}
-                className={`rounded-xl p-2 transition-all ${showSettings ? "bg-accent text-white" : "text-stone-400 hover:bg-white/[0.06] hover:text-stone-100"}`}
+                onClick={() => setShowHistoryView((v) => !v)}
+                className={`rounded-xl p-2 transition-all ${showHistoryView ? "bg-accent text-white" : "text-stone-400 hover:bg-white/[0.06] hover:text-stone-100"}`}
+                aria-label="Toggle chat history"
+                aria-pressed={showHistoryView}
             >
-                <Settings size={18} />
+                <History size={18} />
             </button>
         </div>
 
@@ -264,27 +300,6 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
           </div>
         </div>
 
-        <AnimatePresence>
-            {showSettings && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
-                >
-                    <div className="mb-6 space-y-4 rounded-2xl border border-accent/20 bg-accent/5 p-4">
-                        <button 
-                            type="button"
-                            onClick={clearChat}
-                            className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-semibold text-rose-300 transition-colors hover:bg-red-500/10"
-                        >
-                            <Trash2 size={14} /> Clear chat history
-                        </button>
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-
         <div className="mt-auto border-t border-white/[0.06] pt-6">
             <p className="text-center text-[11px] leading-relaxed text-stone-500">
               Private chat · Encrypted in transit
@@ -317,7 +332,51 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
             </button>
         </div>
 
-        <div 
+        {showHistoryView ? (
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+            <div className="sticky top-0 z-10 border-b border-white/[0.06] bg-surface/90 px-5 py-4 backdrop-blur-xl md:px-8">
+              <h3 className="text-lg font-semibold text-stone-50">Chat History</h3>
+              <div className="relative mt-3">
+                <Search
+                  size={16}
+                  className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-500"
+                />
+                <input
+                  type="search"
+                  value={historySearch}
+                  onChange={(e) => setHistorySearch(e.target.value)}
+                  placeholder="Search past conversations..."
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-2.5 pl-9 pr-4 text-sm text-stone-100 outline-none transition-colors placeholder:text-stone-500 focus:border-accent/35 focus:ring-2 focus:ring-accent/10"
+                />
+              </div>
+            </div>
+            <div className="no-scrollbar flex-1 overflow-y-auto p-4 md:p-6">
+              {filteredHistory.length === 0 ? (
+                <p className="py-8 text-center text-sm text-stone-500">No conversations match your search.</p>
+              ) : (
+                <ul className="space-y-1">
+                  {filteredHistory.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        onClick={() => setShowHistoryView(false)}
+                        className="flex w-full flex-col gap-1 rounded-xl px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
+                      >
+                        <span className="text-[11px] font-medium uppercase tracking-wide text-stone-500">
+                          {item.date}
+                        </span>
+                        <span className="text-sm font-semibold text-stone-100">{item.title}</span>
+                        <span className="line-clamp-2 text-sm text-stone-400">{item.preview}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        ) : (
+          <>
+        <div
             ref={scrollRef}
             className="no-scrollbar flex-1 space-y-4 overflow-y-auto p-4 md:space-y-5 md:p-8"
         >
@@ -436,6 +495,8 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
             </div>
           </div>
         </div>
+          </>
+        )}
       </div>
       {/* Desktop social feed */}
       <div className="hidden min-h-0 flex-col border-l border-white/[0.06] lg:flex">
