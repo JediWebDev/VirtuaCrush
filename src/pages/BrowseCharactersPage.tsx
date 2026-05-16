@@ -12,13 +12,6 @@ export default function BrowseCharactersPage({ onSelect, onWatch }: BrowseCharac
   return (
     <main className="relative px-6 pb-24 pt-4 md:px-12">
       <div className="mx-auto max-w-7xl">
-        <Link
-          to="/"
-          className="mb-10 inline-flex items-center gap-2 text-sm font-medium text-stone-400 transition-colors hover:text-stone-100"
-        >
-          <ArrowLeft size={16} />
-          Back to home
-        </Link>
 
         <div className="mb-12">
           <h1 className="font-serif text-4xl font-bold text-stone-50 md:text-5xl">Browse Characters</h1>
