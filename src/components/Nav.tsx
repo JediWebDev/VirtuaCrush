@@ -63,7 +63,7 @@ export default function Nav({
             browseActive ? "text-accent" : "text-stone-400 hover:text-stone-100"
           }`}
         >
-          Browse Characters
+          BROWSE CHARACTERS
         </Link>
         <Link
           to="/how-it-works"
@@ -71,7 +71,7 @@ export default function Nav({
             howItWorksActive ? "text-accent" : "text-stone-400 hover:text-stone-100"
           }`}
         >
-          How It Works
+          HOW IT WORKS
         </Link>
 
         <button
