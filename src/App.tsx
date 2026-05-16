@@ -14,6 +14,7 @@ import Nav from "./components/Nav";
 import HomePage from "./pages/HomePage";
 import BrowseCharactersPage from "./pages/BrowseCharactersPage";
 import AccountPage from "./pages/AccountPage";
+import HowItWorksPage from "./pages/HowItWorksPage";
 
 declare global {
   interface Window {
@@ -113,6 +114,7 @@ export default function App() {
                 element={<BrowseCharactersPage onSelect={handleSelect} onWatch={handleWatch} />}
               />
               <Route path="/account" element={<AccountPage />} />
+              <Route path="/how-it-works" element={<HowItWorksPage />} />
               <Route path="/chat/:characterId" element={<ChatDeepLink onSelect={handleSelect} />} />
             </Routes>
 

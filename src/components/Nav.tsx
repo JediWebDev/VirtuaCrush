@@ -29,6 +29,7 @@ export default function Nav({
     });
   };
   const browseActive = pathname === "/characters";
+  const howItWorksActive = pathname === "/how-it-works";
 
   useEffect(() => {
     if (!isNotificationsOpen) return;
@@ -63,6 +64,14 @@ export default function Nav({
           }`}
         >
           Browse Characters
+        </Link>
+        <Link
+          to="/how-it-works"
+          className={`hidden text-sm font-medium transition-colors sm:block ${
+            howItWorksActive ? "text-accent" : "text-stone-400 hover:text-stone-100"
+          }`}
+        >
+          How It Works
         </Link>
 
         <button

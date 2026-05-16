@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
-  ArrowLeft,
   User,
   KeyRound,
   CreditCard,
@@ -179,13 +177,6 @@ export default function AccountPage() {
   return (
     <main className="relative px-6 pb-24 pt-4 md:px-12">
       <div className="mx-auto max-w-3xl">
-        <Link
-          to="/"
-          className="mb-10 inline-flex items-center gap-2 text-sm font-medium text-stone-400 transition-colors hover:text-stone-100"
-        >
-          <ArrowLeft size={16} />
-          Back to home
-        </Link>
         <div className="mb-10 flex items-center gap-4">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/15 text-accent">
             <User size={28} />
