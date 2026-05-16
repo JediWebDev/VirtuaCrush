@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Wallet, Sparkles, User } from "lucide-react";
+import { Wallet, Sparkles, User, Mail } from "lucide-react";
 
 interface NavProps {
   isWalletConnected: boolean;
@@ -59,13 +59,29 @@ export default function Nav({
           )}
         </button>
 
-        <Link
-          to="/account"
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition-all hover:border-accent/30 hover:bg-white/[0.08] hover:text-stone-50"
-          aria-label="Account and profile"
-        >
-          <User size={20} />
-        </Link>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
+          <Link
+            to="/account#notifications"
+            className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition-all hover:border-accent/30 hover:bg-white/[0.08] hover:text-stone-50"
+            aria-label="Messages and notifications"
+          >
+            <Mail size={20} />
+            <span
+              className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold leading-none text-white ring-2 ring-surface"
+              aria-hidden
+            >
+              1
+            </span>
+          </Link>
+
+          <Link
+            to="/account"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition-all hover:border-accent/30 hover:bg-white/[0.08] hover:text-stone-50"
+            aria-label="Account and profile"
+          >
+            <User size={20} />
+          </Link>
+        </div>
       </div>
     </header>
   );
