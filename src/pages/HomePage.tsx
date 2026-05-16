@@ -12,7 +12,7 @@ interface HomePageProps {
 
 const PRICING_TIERS = [
   {
-    name: "Free",
+    name: "FREE",
     price: "$0",
     period: "forever",
     highlight: false,
@@ -23,7 +23,7 @@ const PRICING_TIERS = [
     ],
   },
   {
-    name: "Subscription",
+    name: "PRO",
     price: "$14.99",
     period: "/ month",
     highlight: true,
