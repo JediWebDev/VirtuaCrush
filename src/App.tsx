@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
@@ -80,8 +80,13 @@ export default function App() {
     );
   };
 
+  useEffect(() => {
+    if (location.pathname.startsWith("/chat/")) return;
+    setActiveChat(null);
+  }, [location.pathname]);
+
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="flex min-h-screen flex-col bg-surface">
       <Nav
         isWalletConnected={isWalletConnected}
         walletAddress={walletAddress}
@@ -89,65 +94,65 @@ export default function App() {
         onConnectWallet={connectWallet}
       />
 
-      <Routes>
-        <Route path="/" element={<HomePage onSelect={handleSelect} onWatch={handleWatch} />} />
-        <Route
-          path="/characters"
-          element={<BrowseCharactersPage onSelect={handleSelect} onWatch={handleWatch} />}
-        />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/chat/:characterId" element={<ChatDeepLink onSelect={handleSelect} />} />
-      </Routes>
-
-      <AnimatePresence>
-        {activeVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-surface/90 p-4 backdrop-blur-2xl"
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="relative aspect-video w-full max-w-5xl overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10"
-            >
-              <button
-                type="button"
-                onClick={() => setActiveVideo(null)}
-                className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-surface/60 text-stone-100 backdrop-blur-md transition-all hover:bg-accent"
-              >
-                <X size={20} />
-              </button>
-              <video src={activeVideo.premiumVideo} autoPlay loop className="h-full w-full object-cover" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
-              <div className="absolute bottom-10 left-10">
-                <h3 className="mb-2 font-serif text-4xl font-bold text-stone-50">{activeVideo.name}</h3>
-                <p className="font-medium tracking-wide text-stone-400">Exclusive preview</p>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {activeChat && (
+      <div className="relative flex flex-1 flex-col">
+        {activeChat ? (
           <ChatInterface
             character={activeChat}
             onBack={() => {
               setActiveChat(null);
-              if (location.pathname.startsWith("/chat")) {
-                navigate("/");
-              }
+              navigate("/");
             }}
             onAffinityChange={handleAffinityChange}
           />
-        )}
-      </AnimatePresence>
+        ) : (
+          <>
+            <Routes>
+              <Route path="/" element={<HomePage onSelect={handleSelect} onWatch={handleWatch} />} />
+              <Route
+                path="/characters"
+                element={<BrowseCharactersPage onSelect={handleSelect} onWatch={handleWatch} />}
+              />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/chat/:characterId" element={<ChatDeepLink onSelect={handleSelect} />} />
+            </Routes>
 
-      <CTASection />
-      <Footer />
+            <AnimatePresence>
+              {activeVideo && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 z-[60] flex items-center justify-center bg-surface/90 p-4 backdrop-blur-2xl"
+                >
+                  <motion.div
+                    initial={{ scale: 0.9, y: 20 }}
+                    animate={{ scale: 1, y: 0 }}
+                    exit={{ scale: 0.9, y: 20 }}
+                    className="relative aspect-video w-full max-w-5xl overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setActiveVideo(null)}
+                      className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-surface/60 text-stone-100 backdrop-blur-md transition-all hover:bg-accent"
+                    >
+                      <X size={20} />
+                    </button>
+                    <video src={activeVideo.premiumVideo} autoPlay loop className="h-full w-full object-cover" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                    <div className="absolute bottom-10 left-10">
+                      <h3 className="mb-2 font-serif text-4xl font-bold text-stone-50">{activeVideo.name}</h3>
+                      <p className="font-medium tracking-wide text-stone-400">Exclusive preview</p>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <CTASection />
+            <Footer />
+          </>
+        )}
+      </div>
 
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute -left-1/4 top-0 h-[800px] w-[800px] rounded-full bg-accent/10 blur-[120px]" />

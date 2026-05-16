@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Send, User, ArrowLeft, Loader2, Sparkles, LayoutGrid, X, Play, Lock, History, Search } from "lucide-react";
 import { Character, buildRivalrySystemContext } from "../types/character";
@@ -75,7 +74,6 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
   const [feedOpen, setFeedOpen] = useState(false);
   const [activeMessage, setActiveMessage] = useState<typeof DEMO_AUDIO_MESSAGE | null>(null);
   const [affinity, setAffinity] = useState(character.currentAffinity);
-  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const characterWithAffinity: Character = { ...character, currentAffinity: affinity };
@@ -190,7 +188,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
       initial={{ opacity: 0, scale: 1.02 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.98 }}
-      className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-surface lg:grid lg:grid-cols-[300px_1fr_350px] lg:grid-rows-1"
+      className="relative h-[calc(100vh-104px)] w-full flex flex-col overflow-hidden bg-surface lg:grid lg:grid-cols-[300px_1fr_350px] lg:grid-rows-1"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(201,113,125,0.12),transparent)]" />
 
@@ -199,10 +197,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
         <div className="mb-8 flex items-center justify-between">
             <button
             type="button"
-            onClick={() => {
-              onBack();
-              navigate("/");
-            }}
+            onClick={onBack}
             className="flex items-center gap-2 text-sm font-medium text-stone-400 transition-colors hover:text-stone-100"
             >
             <ArrowLeft size={16} />
@@ -508,7 +503,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[55] bg-black/50 backdrop-blur-sm lg:hidden"
+              className="absolute inset-0 z-[55] bg-black/50 backdrop-blur-sm lg:hidden"
               onClick={() => setFeedOpen(false)}
               aria-hidden
             />
@@ -517,7 +512,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 280 }}
-              className="fixed inset-y-0 right-0 z-[60] flex w-full max-w-[350px] flex-col border-l border-white/[0.08] bg-surface shadow-2xl lg:hidden"
+              className="absolute inset-y-0 right-0 z-[60] flex w-full max-w-[350px] flex-col border-l border-white/[0.08] bg-surface shadow-2xl lg:hidden"
             >
               <div className="flex shrink-0 items-center justify-between border-b border-white/[0.06] px-4 py-3">
                 <span className="text-sm font-semibold text-stone-200">Feed</span>
@@ -542,7 +537,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
             onClick={() => setActiveMessage(null)}
           >
             <motion.div
