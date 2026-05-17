@@ -8,6 +8,7 @@ interface NavProps {
   vCrushTokens: number;
   vLinkTokens: number;
   onConnectWallet: () => void;
+  onLogoClick: () => void;
 }
 
 const navLinkClass = (active: boolean) =>
@@ -24,6 +25,7 @@ export default function Nav({
   vCrushTokens,
   vLinkTokens,
   onConnectWallet,
+  onLogoClick,
 }: NavProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -93,12 +95,18 @@ export default function Nav({
       <div className="flex items-center justify-between">
         <Link
           to="/"
+          onClick={() => {
+            onLogoClick();
+            setIsMobileMenuOpen(false);
+          }}
           className="flex items-center gap-3 transition-all duration-200 hover:scale-[1.02] hover:opacity-90 active:scale-[0.98]"
         >
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent shadow-lg shadow-accent/25">
             <Sparkles className="text-white" size={20} />
           </div>
-          <span className="font-serif text-2xl font-bold tracking-tight">VirtuaCrush</span>
+          <span className="font-serif text-2xl font-bold tracking-tight text-stone-900 dark:text-white">
+            VirtuaCrush
+          </span>
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-3 md:gap-5">

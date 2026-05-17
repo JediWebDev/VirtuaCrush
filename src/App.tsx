@@ -115,6 +115,7 @@ export default function App() {
         vCrushTokens={vCrushTokens}
         vLinkTokens={vLinkTokens}
         onConnectWallet={connectWallet}
+        onLogoClick={() => setActiveChat(null)}
       />
 
       <div className="relative flex flex-1 flex-col">

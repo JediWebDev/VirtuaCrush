@@ -81,13 +81,13 @@ export default function HomePage({ onSelect }: HomePageProps) {
                 <Sparkles size={18} />
                 Join Beta Waitlist
               </button>
-              <a
-                href="#whitepaper"
-                className="glass flex items-center gap-2 rounded-2xl border-stone-500/15 px-8 py-4 font-semibold text-stone-800 dark:text-stone-100 transition-all hover:bg-white/[0.07] active:scale-95"
+              <Link
+                to="/how-it-works"
+                className="glass flex items-center gap-2 rounded-2xl border-stone-500/15 px-8 py-4 font-semibold text-stone-900 transition-all hover:bg-black/[0.06] active:scale-95 dark:text-stone-100 dark:hover:bg-white/[0.07]"
               >
                 <Shield size={18} />
                 How it Works
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -194,7 +194,7 @@ export default function HomePage({ onSelect }: HomePageProps) {
                 <li>· Profile customization</li>
                 <li>· Gifting</li>
               </ul>
-              <p className="rounded-xl border border-accent/20 bg-accent/5 px-4 py-3 text-sm font-medium text-rose-100/90">
+              <p className="rounded-xl border border-accent/20 bg-accent/5 px-4 py-3 text-sm font-medium text-rose-950 dark:text-rose-100/90">
                 Key rule: Price of experiences is ALWAYS in $VLINK.
               </p>
             </article>
