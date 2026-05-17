@@ -19,7 +19,7 @@ export default function CompanionCard({ character, onSelect, onWatch }: Props) {
       whileHover={{ y: -6 }}
       className="group relative mx-auto w-full max-w-[360px]"
     >
-      <div className="overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-stone-900/40 shadow-xl shadow-black/25 backdrop-blur-xl transition-all duration-300 hover:border-accent/25 hover:shadow-[0_20px_50px_rgba(201,113,125,0.12)]">
+      <div className="overflow-hidden rounded-[1.75rem] border border-black/[0.08] dark:border-white/[0.08] bg-stone-100 dark:bg-stone-900/40 shadow-xl shadow-black/25 backdrop-blur-xl transition-all duration-300 hover:border-accent/25 hover:shadow-[0_20px_50px_rgba(201,113,125,0.12)]">
         <div className="relative aspect-[4/5] w-full overflow-hidden">
           <motion.img
             src={character.image}
@@ -29,8 +29,8 @@ export default function CompanionCard({ character, onSelect, onWatch }: Props) {
           <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/30 to-transparent" />
 
           <div className="absolute inset-x-0 bottom-0 p-5">
-            <div className="rounded-2xl border border-white/[0.08] bg-stone-950/60 p-4 shadow-lg backdrop-blur-xl">
-              <h3 className="font-serif text-xl font-bold tracking-tight text-stone-50">
+            <div className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-stone-100 dark:bg-stone-950/60 p-4 shadow-lg backdrop-blur-xl">
+              <h3 className="font-serif text-xl font-bold tracking-tight text-stone-900 dark:text-stone-50">
                 {character.name}
               </h3>
               <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent/95">
@@ -41,7 +41,7 @@ export default function CompanionCard({ character, onSelect, onWatch }: Props) {
                 {character.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-white/[0.08] bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-stone-200"
+                    className="rounded-full border border-black/[0.08] dark:border-white/[0.08] bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-stone-700 dark:text-stone-200"
                   >
                     {tag}
                   </span>
@@ -60,7 +60,7 @@ export default function CompanionCard({ character, onSelect, onWatch }: Props) {
                 <button
                   type="button"
                   onClick={() => onWatch(character)}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-stone-100 transition-colors hover:bg-white/[0.1]"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-black/10 dark:border-white/10 bg-white/[0.06] text-stone-800 dark:text-stone-100 transition-colors hover:bg-white/[0.1]"
                   title="Watch intro"
                 >
                   <Play size={18} fill="currentColor" className="opacity-95" />

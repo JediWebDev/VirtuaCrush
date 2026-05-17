@@ -88,7 +88,7 @@ export default function App() {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-surface">
+    <div className="flex min-h-screen flex-col bg-stone-50 dark:bg-surface">
       <Nav
         isWalletConnected={isWalletConnected}
         walletAddress={walletAddress}
@@ -126,7 +126,7 @@ export default function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-[60] flex items-center justify-center bg-surface/90 p-4 backdrop-blur-2xl"
+                  className="absolute inset-0 z-[60] flex items-center justify-center bg-stone-50/90 dark:bg-surface/90 p-4 backdrop-blur-2xl"
                 >
                   <motion.div
                     initial={{ scale: 0.9, y: 20 }}
@@ -137,15 +137,15 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => setActiveVideo(null)}
-                      className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-surface/60 text-stone-100 backdrop-blur-md transition-all hover:bg-accent"
+                      className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-stone-50/60 dark:bg-surface/60 text-stone-800 dark:text-stone-100 backdrop-blur-md transition-all hover:bg-accent"
                     >
                       <X size={20} />
                     </button>
                     <video src={activeVideo.premiumVideo} autoPlay loop className="h-full w-full object-cover" />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
                     <div className="absolute bottom-10 left-10">
-                      <h3 className="mb-2 font-serif text-4xl font-bold text-stone-50">{activeVideo.name}</h3>
-                      <p className="font-medium tracking-wide text-stone-400">Exclusive preview</p>
+                      <h3 className="mb-2 font-serif text-4xl font-bold text-stone-900 dark:text-stone-50">{activeVideo.name}</h3>
+                      <p className="font-medium tracking-wide text-stone-600 dark:text-stone-400">Exclusive preview</p>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -168,17 +168,17 @@ export default function App() {
 
 const CTASection = () => (
   <section className="bg-gradient-to-b from-transparent to-accent/5 px-6 py-24 md:px-12">
-    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[3rem] border border-white/10 glass p-12 text-center">
+    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[3rem] border border-black/10 dark:border-white/10 glass p-12 text-center">
       <div className="absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 -translate-y-1/2 bg-accent/15 blur-3xl" />
       <h2 className="mb-6 font-serif text-4xl font-bold md:text-5xl">Secure Early Access</h2>
-      <p className="mx-auto mb-10 max-w-xl text-stone-400">
+      <p className="mx-auto mb-10 max-w-xl text-stone-600 dark:text-stone-400">
         Sign up to be notified of our $VCRUSH pre-sale token launch and receive immediate priority for the limited Beta release.
       </p>
       <div className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row">
         <input
           type="email"
           placeholder="Enter your email"
-          className="flex-1 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-stone-100 outline-none transition-colors placeholder:text-stone-500 focus:border-accent/40 focus:ring-2 focus:ring-accent/15"
+          className="flex-1 rounded-2xl border border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.04] px-6 py-4 text-stone-800 dark:text-stone-100 outline-none transition-colors placeholder:text-stone-900 dark:text-stone-500 focus:border-accent/40 focus:ring-2 focus:ring-accent/15"
         />
         <button
           type="button"

@@ -61,7 +61,7 @@ export const InteractionDemo = () => {
                     <motion.div 
                         initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="glass flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold text-stone-100"
+                        className="glass flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold text-stone-800 dark:text-stone-100"
                     >
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                         New Post
@@ -71,11 +71,11 @@ export const InteractionDemo = () => {
                         initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.15 }}
-                        className="glass inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.08] px-3 py-1.5 text-[11px] font-semibold text-stone-50 backdrop-blur-xl"
+                        className="glass inline-flex items-center gap-2 rounded-full border border-black/[0.08] dark:border-white/[0.08] bg-white/[0.08] px-3 py-1.5 text-[11px] font-semibold text-stone-900 dark:text-stone-50 backdrop-blur-xl"
                     >
                         <Heart size={14} className="text-accent fill-accent/25" strokeWidth={2} />
                         <span className="tabular-nums">92</span>
-                        <span className="font-normal text-stone-400">likes</span>
+                        <span className="font-normal text-stone-600 dark:text-stone-400">likes</span>
                     </motion.button>
                 </div>
 
@@ -90,7 +90,7 @@ export const InteractionDemo = () => {
                                 className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-snug ${
                                     msg.startsWith("User:") 
                                     ? "ml-auto rounded-tr-sm bg-gradient-to-br from-accent to-accent-deep text-white shadow-md" 
-                                    : "rounded-tl-sm border border-white/[0.08] bg-stone-900/75 text-stone-100 shadow-sm backdrop-blur-md"
+                                    : "rounded-tl-sm border border-black/[0.08] dark:border-white/[0.08] bg-stone-100 dark:bg-stone-900/75 text-stone-800 dark:text-stone-100 shadow-sm backdrop-blur-md"
                                 }`}
                             >
                                 {msg.replace(/^(User|Bot): /, '')}
@@ -102,19 +102,19 @@ export const InteractionDemo = () => {
                         <motion.div 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="inline-flex w-fit items-center gap-2 rounded-2xl rounded-tl-sm border border-white/[0.08] bg-stone-900/75 px-3 py-2 backdrop-blur-md"
+                            className="inline-flex w-fit items-center gap-2 rounded-2xl rounded-tl-sm border border-black/[0.08] dark:border-white/[0.08] bg-stone-100 dark:bg-stone-900/75 px-3 py-2 backdrop-blur-md"
                         >
                             <span className="flex gap-1" aria-hidden>
                                 <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-duration:0.5s]" />
                                 <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:0.15s] [animation-duration:0.5s]" />
                                 <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400 [animation-delay:0.3s] [animation-duration:0.5s]" />
                             </span>
-                            <span className="text-[11px] text-stone-400">Typing…</span>
+                            <span className="text-[11px] text-stone-600 dark:text-stone-400">Typing…</span>
                         </motion.div>
                     )}
                 </div>
 
-                <div className="flex h-11 w-full items-center gap-0.5 rounded-2xl border border-white/[0.07] bg-white/[0.06] px-2.5 backdrop-blur-xl">
+                <div className="flex h-11 w-full items-center gap-0.5 rounded-2xl border border-black/[0.07] dark:border-white/[0.07] bg-white/[0.06] px-2.5 backdrop-blur-xl">
                     {[...Array(24)].map((_, i) => (
                         <motion.div
                             key={i}

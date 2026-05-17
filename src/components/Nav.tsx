@@ -12,11 +12,11 @@ interface NavProps {
 
 const navLinkClass = (active: boolean) =>
   `text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95 ${
-    active ? "text-accent" : "text-stone-400 hover:text-stone-100"
+    active ? "text-accent" : "text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
   }`;
 
 const iconButtonClass =
-  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition-all duration-200 hover:scale-105 hover:border-accent/30 hover:bg-white/[0.08] hover:text-stone-50 active:scale-95";
+  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-black/10 bg-black/[0.04] text-stone-600 transition-all duration-200 hover:scale-105 hover:border-accent/30 hover:bg-black/[0.08] hover:text-stone-900 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-stone-300 dark:hover:bg-white/[0.08] dark:hover:text-stone-50";
 
 export default function Nav({
   isWalletConnected,
@@ -48,9 +48,9 @@ export default function Nav({
   useEffect(() => {
     const root = document.documentElement;
     if (isDarkMode) {
-      root.classList.remove("light-theme");
+      root.classList.add("dark");
     } else {
-      root.classList.add("light-theme");
+      root.classList.remove("dark");
     }
   }, [isDarkMode]);
 
@@ -150,7 +150,7 @@ export default function Nav({
                 <Mail size={20} />
                 {hasUnread ? (
                   <span
-                    className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white ring-2 ring-surface"
+                    className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white ring-2 ring-stone-50 dark:ring-surface"
                     aria-hidden
                   >
                     1
@@ -160,23 +160,23 @@ export default function Nav({
 
               {isNotificationsOpen ? (
                 <div
-                  className="absolute right-0 top-full z-50 mt-2 w-80 rounded-2xl border border-white/10 bg-surface shadow-2xl"
+                  className="absolute right-0 top-full z-50 mt-2 w-80 rounded-2xl border border-black/10 dark:border-white/10 bg-stone-50 dark:bg-surface shadow-2xl"
                   role="menu"
                 >
-                  <div className="border-b border-white/[0.06] px-4 py-3">
-                    <h3 className="text-sm font-semibold text-stone-100">Notifications</h3>
+                  <div className="border-b border-black/[0.06] dark:border-white/[0.06] px-4 py-3">
+                    <h3 className="text-sm font-semibold text-stone-800 dark:text-stone-100">Notifications</h3>
                   </div>
                   <button
                     type="button"
                     role="menuitem"
                     onClick={openCallieChat}
-                    className="flex w-full flex-col gap-0.5 px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
+                    className="flex w-full flex-col gap-0.5 px-4 py-3 text-left transition-colors hover:bg-black/[0.04] dark:bg-white/[0.04]"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-semibold text-stone-100">Callie Spencer</span>
-                      <span className="shrink-0 text-[11px] text-stone-500">Just now</span>
+                      <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">Callie Spencer</span>
+                      <span className="shrink-0 text-[11px] text-stone-900 dark:text-stone-500">Just now</span>
                     </div>
-                    <span className="text-sm text-stone-400">Are you awake? 🥺</span>
+                    <span className="text-sm text-stone-600 dark:text-stone-400">Are you awake? 🥺</span>
                   </button>
                 </div>
               ) : null}
@@ -209,18 +209,18 @@ export default function Nav({
       </div>
 
       {isMobileMenuOpen ? (
-        <nav className="absolute left-6 right-6 top-full z-50 mt-2 flex flex-col gap-1 rounded-2xl border border-white/10 bg-surface p-3 shadow-2xl backdrop-blur-xl md:hidden">
+        <nav className="absolute left-6 right-6 top-full z-50 mt-2 flex flex-col gap-1 rounded-2xl border border-black/10 dark:border-white/10 bg-stone-50 dark:bg-surface p-3 shadow-2xl backdrop-blur-xl md:hidden">
           <Link
             to="/characters"
             onClick={closeMobileMenu}
-            className={`rounded-xl px-4 py-3 transition-all duration-200 hover:scale-[1.01] hover:bg-white/[0.04] active:scale-[0.99] ${navLinkClass(browseActive)}`}
+            className={`rounded-xl px-4 py-3 transition-all duration-200 hover:scale-[1.01] hover:bg-black/[0.04] dark:bg-white/[0.04] active:scale-[0.99] ${navLinkClass(browseActive)}`}
           >
             Browse Characters
           </Link>
           <Link
             to="/how-it-works"
             onClick={closeMobileMenu}
-            className={`rounded-xl px-4 py-3 transition-all duration-200 hover:scale-[1.01] hover:bg-white/[0.04] active:scale-[0.99] ${navLinkClass(howItWorksActive)}`}
+            className={`rounded-xl px-4 py-3 transition-all duration-200 hover:scale-[1.01] hover:bg-black/[0.04] dark:bg-white/[0.04] active:scale-[0.99] ${navLinkClass(howItWorksActive)}`}
           >
             How It Works
           </Link>

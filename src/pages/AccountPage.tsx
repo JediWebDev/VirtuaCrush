@@ -86,15 +86,15 @@ function SectionCard({ section }: { section: Section }) {
   return (
     <section
       id={section.id}
-      className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-xl"
+      className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.03] dark:bg-white/[0.03] p-6 backdrop-blur-xl"
     >
       <div className="mb-4 flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
           <Icon size={20} />
         </div>
         <div>
-          <h2 className="text-lg font-semibold text-stone-50">{section.title}</h2>
-          <p className="mt-0.5 text-sm text-stone-400">{section.description}</p>
+          <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-50">{section.title}</h2>
+          <p className="mt-0.5 text-sm text-stone-600 dark:text-stone-400">{section.description}</p>
         </div>
       </div>
       {hasBody ? (
@@ -103,13 +103,13 @@ function SectionCard({ section }: { section: Section }) {
             <div className="space-y-4">
               {section.fields!.map((field) => (
                 <label key={field.label} className="block">
-                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-stone-500">
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-stone-900 dark:text-stone-500">
                     {field.label}
                   </span>
                   <input
                     type={field.type}
                     placeholder={field.placeholder}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-stone-100 outline-none transition-colors placeholder:text-stone-600 focus:border-accent/35 focus:ring-2 focus:ring-accent/10"
+                    className="w-full rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.04] px-4 py-3 text-stone-800 dark:text-stone-100 outline-none transition-colors placeholder:text-stone-600 focus:border-accent/35 focus:ring-2 focus:ring-accent/10"
                   />
                 </label>
               ))}
@@ -123,11 +123,11 @@ function SectionCard({ section }: { section: Section }) {
                 return (
                   <li
                     key={toggle.label}
-                    className="flex items-center justify-between gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
+                    className="flex items-center justify-between gap-4 rounded-xl border border-black/[0.06] dark:border-white/[0.06] bg-black/[0.02] dark:bg-white/[0.02] px-4 py-3"
                   >
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-stone-100">{toggle.label}</p>
-                      <p className="mt-0.5 text-xs text-stone-500">{toggle.description}</p>
+                      <p className="text-sm font-medium text-stone-800 dark:text-stone-100">{toggle.label}</p>
+                      <p className="mt-0.5 text-xs text-stone-900 dark:text-stone-500">{toggle.description}</p>
                     </div>
                     <button
                       type="button"
@@ -167,7 +167,7 @@ function SectionCard({ section }: { section: Section }) {
           ) : null}
         </div>
       ) : (
-        <p className="text-sm text-stone-500">{section.emptyText}</p>
+        <p className="text-sm text-stone-900 dark:text-stone-500">{section.emptyText}</p>
       )}
     </section>
   );
@@ -182,8 +182,8 @@ export default function AccountPage() {
             <User size={28} />
           </div>
           <div>
-            <h1 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Account</h1>
-            <p className="mt-1 text-stone-400">Manage your profile, security, and billing.</p>
+            <h1 className="font-serif text-3xl font-bold text-stone-900 dark:text-stone-50 md:text-4xl">Account</h1>
+            <p className="mt-1 text-stone-600 dark:text-stone-400">Manage your profile, security, and billing.</p>
           </div>
         </div>
         <div className="space-y-6">
@@ -191,7 +191,7 @@ export default function AccountPage() {
             <SectionCard key={s.id} section={s} />
           ))}
         </div>
-        <p className="mt-8 text-center text-xs text-stone-500">
+        <p className="mt-8 text-center text-xs text-stone-900 dark:text-stone-500">
           Need help?{" "}
           <a href="mailto:help@virtuacrush.com" className="text-accent hover:underline">
             help@virtuacrush.com

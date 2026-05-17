@@ -14,8 +14,8 @@ export default function BrowseCharactersPage({ onSelect, onWatch }: BrowseCharac
       <div className="mx-auto max-w-7xl">
 
         <div className="mb-12">
-          <h1 className="font-serif text-4xl font-bold text-stone-50 md:text-5xl">Browse Characters</h1>
-          <p className="mt-3 max-w-2xl text-lg text-stone-400">
+          <h1 className="font-serif text-4xl font-bold text-stone-900 dark:text-stone-50 md:text-5xl">Browse Characters</h1>
+          <p className="mt-3 max-w-2xl text-lg text-stone-600 dark:text-stone-400">
             Meet every companion on VirtuaCrush. Tap a profile to start a conversation or watch their intro.
           </p>
         </div>

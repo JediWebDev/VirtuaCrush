@@ -59,7 +59,7 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="font-hero text-5xl font-medium leading-[1.12] tracking-tight text-stone-50 md:text-7xl lg:text-8xl"
+              className="font-hero text-5xl font-medium leading-[1.12] tracking-tight text-stone-900 dark:text-stone-50 md:text-7xl lg:text-8xl"
             >
               Real connections.{" "}
               <span className="text-gradient italic font-normal">Virtual sparks.</span>
@@ -69,7 +69,7 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mx-auto max-w-xl text-lg leading-relaxed text-stone-400 lg:mx-0"
+              className="mx-auto max-w-xl text-lg leading-relaxed text-stone-600 dark:text-stone-400 lg:mx-0"
             >
               Experience true companionship with lifelike avatars who remember you, share their daily moments, and send personalized messages.
             </motion.p>
@@ -84,7 +84,7 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
               </button>
               <a
                 href="#whitepaper"
-                className="glass flex items-center gap-2 rounded-2xl border-stone-500/15 px-8 py-4 font-semibold text-stone-100 transition-all hover:bg-white/[0.07] active:scale-95"
+                className="glass flex items-center gap-2 rounded-2xl border-stone-500/15 px-8 py-4 font-semibold text-stone-800 dark:text-stone-100 transition-all hover:bg-white/[0.07] active:scale-95"
               >
                 <Shield size={18} />
                 How it Works
@@ -106,8 +106,8 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
         <section className="mb-24">
           <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Character Spotlight</h2>
-              <p className="mt-2 max-w-lg text-stone-400">
+              <h2 className="font-serif text-3xl font-bold text-stone-900 dark:text-stone-50 md:text-4xl">Character Spotlight</h2>
+              <p className="mt-2 max-w-lg text-stone-600 dark:text-stone-400">
                 Meet a few of the companions waiting to connect with you.
               </p>
             </div>
@@ -132,8 +132,8 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
 
         <section className="mb-24">
           <div className="mb-10 text-center">
-            <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Pricing</h2>
-            <p className="mx-auto mt-3 max-w-xl text-stone-400">
+            <h2 className="font-serif text-3xl font-bold text-stone-900 dark:text-stone-50 md:text-4xl">Pricing</h2>
+            <p className="mx-auto mt-3 max-w-xl text-stone-600 dark:text-stone-400">
               Start free, then unlock deeper connection and exclusive content as your relationship grows.
             </p>
           </div>
@@ -144,17 +144,17 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
                 className={`flex flex-col rounded-2xl border p-6 ${
                   tier.highlight
                     ? "border-accent/40 bg-accent/10 shadow-lg shadow-accent/10"
-                    : "border-white/[0.08] glass"
+                    : "border-black/[0.08] dark:border-white/[0.08] glass"
                 }`}
               >
-                <h3 className="text-lg font-semibold text-stone-50">{tier.name}</h3>
+                <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-50">{tier.name}</h3>
                 <p className="mt-2">
-                  <span className="font-serif text-3xl font-bold text-stone-50">{tier.price}</span>
-                  <span className="text-sm text-stone-500">{tier.period}</span>
+                  <span className="font-serif text-3xl font-bold text-stone-900 dark:text-stone-50">{tier.price}</span>
+                  <span className="text-sm text-stone-900 dark:text-stone-500">{tier.period}</span>
                 </p>
                 <ul className="mt-6 flex-1 space-y-3">
                   {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-stone-300">
+                    <li key={feature} className="flex items-start gap-2 text-sm text-stone-600 dark:text-stone-300">
                       <Check size={16} className="mt-0.5 shrink-0 text-accent" />
                       {feature}
                     </li>
@@ -165,7 +165,7 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
                   className={`mt-8 w-full rounded-xl py-3 text-sm font-semibold transition-all ${
                     tier.highlight
                       ? "bg-accent text-white hover:bg-accent-deep"
-                      : "border border-white/10 bg-white/[0.04] text-stone-200 hover:bg-white/[0.08]"
+                      : "border border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.04] text-stone-700 dark:text-stone-200 hover:bg-black/[0.08] dark:hover:bg-white/[0.08]"
                   }`}
                 >
                   {tier.name === "Free" ? "Get started" : "Choose plan"}
@@ -181,17 +181,17 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
               <Coins size={14} />
               Web3 Tokenomics
             </div>
-            <h2 className="font-serif text-3xl font-bold text-stone-50 md:text-4xl">Two layers, one experience</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-stone-400">
+            <h2 className="font-serif text-3xl font-bold text-stone-900 dark:text-stone-50 md:text-4xl">Two layers, one experience</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-stone-600 dark:text-stone-400">
               VirtuaCrush separates in-app spending from the open market so companionship stays stable while $VCRUSH powers the broader ecosystem.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <article className="rounded-2xl border border-white/[0.08] glass p-8">
-              <h3 className="mb-1 text-xl font-semibold text-stone-50">1. $VLINK (IN-APP ONLY)</h3>
+            <article className="rounded-2xl border border-black/[0.08] dark:border-white/[0.08] glass p-8">
+              <h3 className="mb-1 text-xl font-semibold text-stone-900 dark:text-stone-50">1. $VLINK (IN-APP ONLY)</h3>
               <p className="mb-4 text-sm font-medium text-accent">Non-tradable · Stable · Closed-loop economy</p>
-              <p className="mb-4 text-sm text-stone-400">Used for:</p>
-              <ul className="mb-6 space-y-2 text-sm text-stone-300">
+              <p className="mb-4 text-sm text-stone-600 dark:text-stone-400">Used for:</p>
+              <ul className="mb-6 space-y-2 text-sm text-stone-600 dark:text-stone-300">
                 <li>· Subscriptions</li>
                 <li>· Profile customization</li>
                 <li>· Gifting</li>
@@ -201,20 +201,20 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
               </p>
             </article>
             <article className="rounded-2xl border border-violet-warm/25 glass p-8">
-              <h3 className="mb-1 text-xl font-semibold text-stone-50">2. $VCRUSH (EXTERNAL TOKEN)</h3>
+              <h3 className="mb-1 text-xl font-semibold text-stone-900 dark:text-stone-50">2. $VCRUSH (EXTERNAL TOKEN)</h3>
               <p className="mb-4 text-sm font-medium text-violet-warm">
                 100% Optional. Market-driven. Open economy.
               </p>
-              <p className="mb-4 text-sm leading-relaxed text-stone-400">
+              <p className="mb-4 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
                  Holding and using our optional $VCRUSH token unlocks premium ecosystem advantages.
               </p>
-              <p className="mb-2 text-sm text-stone-400">Used for:</p>
-              <ul className="mb-6 space-y-2 text-sm text-stone-300">
+              <p className="mb-2 text-sm text-stone-600 dark:text-stone-400">Used for:</p>
+              <ul className="mb-6 space-y-2 text-sm text-stone-600 dark:text-stone-300">
                 <li>· Buying $VLINK at a discount</li>
                 <li>· Staking for perks</li>
                 <li>· VIP status</li>
               </ul>
-              <p className="rounded-xl border border-violet-warm/25 bg-violet-warm/10 px-4 py-3 text-sm font-medium leading-relaxed text-stone-200">
+              <p className="rounded-xl border border-violet-warm/25 bg-violet-warm/10 px-4 py-3 text-sm font-medium leading-relaxed text-stone-700 dark:text-stone-200">
                 Key rule: $VCRUSH is an optional upgrade path that rewards our most dedicated community members, but never directly prices in-app
                 experiences.
               </p>

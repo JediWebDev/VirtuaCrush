@@ -28,7 +28,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-24 border-t border-white/10 bg-surface px-6 pt-14 pb-10 md:px-12">
+    <footer className="relative mt-24 border-t border-black/10 dark:border-white/10 bg-stone-50 dark:bg-surface px-6 pt-14 pb-10 md:px-12">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div>
@@ -38,15 +38,15 @@ export default function Footer() {
               </div>
               <span className="font-serif text-lg font-bold">VirtuaCrush</span>
             </div>
-            <p className="max-w-xs text-sm leading-relaxed text-stone-500">
+            <p className="max-w-xs text-sm leading-relaxed text-stone-900 dark:text-stone-500">
               Premium AI companions with social profiles, personalized messages, and meaningful connection.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-12">
             <div>
-              <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-500">Links</h4>
-              <ul className="space-y-3 text-sm text-stone-400">
+              <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-900 dark:text-stone-500">Links</h4>
+              <ul className="space-y-3 text-sm text-stone-600 dark:text-stone-400">
                 <li>
                   <Link to="/characters" className="transition-colors hover:text-accent">
                     Characters
@@ -61,8 +61,8 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-500">Legal</h4>
-              <ul className="space-y-3 text-sm text-stone-400">
+              <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-900 dark:text-stone-500">Legal</h4>
+              <ul className="space-y-3 text-sm text-stone-600 dark:text-stone-400">
                 <li><a href="#" className="hover:text-accent">Terms of Use</a></li>
                 <li><a href="#" className="hover:text-accent">Privacy Statement</a></li>
                 <li><a href="#" className="hover:text-accent">Acceptable Use Policy</a></li>
@@ -72,29 +72,29 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-500">Connect with us</h4>
+            <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-900 dark:text-stone-500">Connect with us</h4>
             <div className="mb-5 flex gap-3">
               {SOCIAL_LINKS.map(({ label, href, Icon }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-400 transition-colors hover:border-accent/30 hover:text-accent"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.04] text-stone-600 dark:text-stone-400 transition-colors hover:border-accent/30 hover:text-accent"
                 >
                   <Icon className="h-[18px] w-[18px]" />
                 </a>
               ))}
             </div>
-            <p className="text-sm text-stone-500">
+            <p className="text-sm text-stone-900 dark:text-stone-500">
               <span className="text-stone-600">Support: </span>
-              <a href="mailto:help@virtuacrush.com" className="text-stone-300 hover:text-accent">
+              <a href="mailto:help@virtuacrush.com" className="text-stone-600 dark:text-stone-300 hover:text-accent">
                 help@virtuacrush.com
               </a>
             </p>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/5 pt-8 text-xs text-stone-500 md:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/5 pt-8 text-xs text-stone-900 dark:text-stone-500 md:flex-row">
           <p>© {year} VirtuaCrush. All rights reserved.</p>
           <span>Status: Online</span>
         </div>
