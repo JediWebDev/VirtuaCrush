@@ -19,18 +19,20 @@ const TIERS = [
     price: "$0",
     period: "forever",
     highlight: false,
-    features: ["Basic text chatting", "Standard feed viewing", "Locked private media"],
+    features: ["Capped daily text chatting", "Standard feed viewing", "Limited character memory", "No affinity progression"],
   },
   {
-    name: "Subscription",
+    name: "PRO",
     price: "$14.99",
     period: "/ month",
     highlight: true,
     features: [
-      "Unlocked private messages",
-      "Audio & video media",
-      "Ad-free experience",
-      "Priority AI response speed",
+      "Unlimited text chatting",
+      "Full feed access including private drops",
+      "Affinity progression system",
+      "Deep character memory context",
+      "Personalized email messages from characters",
+      "Late night private media drops",
     ],
   },
   {
@@ -39,9 +41,10 @@ const TIERS = [
     period: "/ month",
     highlight: false,
     features: [
-      "Custom voice requests",
-      "Deeper memory context limits",
-      "Exclusive VIP social feed drops",
+      "All features from PRO",
+      "Personalized audio and video message drops",
+      "One way SMS text messages, customized frequency, and special occasion drops",
+      "Exclusive VIP story beats",  
     ],
   },
 ];
@@ -102,7 +105,7 @@ export default function HowItWorksPage() {
                 </p>
                 <p>
                   Conversations remember what you share, reference past moments, and shift tone as your bond
-                  deepens. The more you show up, the more their world bends around you.
+                  deepens. The more you show up, the more their world evolves around you.
                 </p>
               </div>
               <GlassPanel className="relative overflow-hidden">
@@ -140,7 +143,7 @@ export default function HowItWorksPage() {
               <div className="space-y-4">
                 <div className="flex justify-between text-xs font-semibold uppercase tracking-wide text-stone-900 dark:text-stone-500">
                   <span>Acquaintance</span>
-                  <span className="text-accent">Close Confidant</span>
+                  <span className="text-accent">Intimate</span>
                 </div>
                 <div className="relative h-3 overflow-hidden rounded-full bg-white/10">
                   <div
