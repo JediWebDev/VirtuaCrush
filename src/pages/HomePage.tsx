@@ -7,7 +7,6 @@ import { InteractionDemo } from "../components/InteractionDemo";
 
 interface HomePageProps {
   onSelect: (c: Character) => void;
-  onWatch: (c: Character) => void;
 }
 
 const PRICING_TIERS = [
@@ -50,7 +49,7 @@ const PRICING_TIERS = [
   },
 ];
 
-export default function HomePage({ onSelect, onWatch }: HomePageProps) {
+export default function HomePage({ onSelect }: HomePageProps) {
   return (
     <main className="relative px-6 py-12 md:px-12 md:py-24">
       <div className="mx-auto max-w-7xl">
@@ -124,7 +123,6 @@ export default function HomePage({ onSelect, onWatch }: HomePageProps) {
                 key={char.id}
                 character={char}
                 onSelect={onSelect}
-                onWatch={onWatch}
               />
             ))}
           </div>

@@ -81,8 +81,9 @@ export default function Nav({
   }, [pathname]);
 
   const openCallieChat = () => {
+    setHasUnread(false);
     setIsNotificationsOpen(false);
-    navigate("/chat/callie");
+    navigate("/", { state: { openChat: "callie", openMessage: "audio-1" } });
   };
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);

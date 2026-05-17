@@ -1,16 +1,15 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Play, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { Character } from "../types/character";
 
 interface Props {
   character: Character;
   onSelect: (c: Character) => void;
-  onWatch: (c: Character) => void;
   key?: React.Key;
 }
 
-export default function CompanionCard({ character, onSelect, onWatch }: Props) {
+export default function CompanionCard({ character, onSelect }: Props) {
   return (
     <motion.div
       layoutId={character.id}
@@ -48,22 +47,14 @@ export default function CompanionCard({ character, onSelect, onWatch }: Props) {
                 ))}
               </div>
 
-              <div className="mt-4 flex gap-2.5">
+              <div className="mt-4">
                 <button
                   type="button"
                   onClick={() => onSelect(character)}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-semibold text-white shadow-md shadow-accent/20 transition-all hover:bg-accent-deep active:scale-[0.98]"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-semibold text-white shadow-md shadow-accent/20 transition-all hover:bg-accent-deep active:scale-[0.98]"
                 >
                   <MessageSquare size={17} />
                   Message
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onWatch(character)}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-black/10 dark:border-white/10 bg-white/[0.06] text-stone-800 dark:text-stone-100 transition-colors hover:bg-white/[0.1]"
-                  title="Watch intro"
-                >
-                  <Play size={18} fill="currentColor" className="opacity-95" />
                 </button>
               </div>
             </div>

@@ -5,10 +5,9 @@ import CompanionCard from "../components/CompanionCard";
 
 interface BrowseCharactersPageProps {
   onSelect: (c: Character) => void;
-  onWatch: (c: Character) => void;
 }
 
-export default function BrowseCharactersPage({ onSelect, onWatch }: BrowseCharactersPageProps) {
+export default function BrowseCharactersPage({ onSelect }: BrowseCharactersPageProps) {
   return (
     <main className="relative px-6 pb-24 pt-4 md:px-12">
       <div className="mx-auto max-w-7xl">
@@ -26,7 +25,6 @@ export default function BrowseCharactersPage({ onSelect, onWatch }: BrowseCharac
               key={char.id}
               character={char}
               onSelect={onSelect}
-              onWatch={onWatch}
             />
           ))}
         </div>

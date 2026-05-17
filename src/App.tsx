@@ -5,8 +5,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useParams, useNavigate, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
 import { Character, CHARACTERS } from "./types/character";
 import ChatInterface from "./components/ChatInterface";
 import Footer from "./components/Footer";
@@ -23,6 +21,11 @@ declare global {
     };
   }
 }
+
+type AppLocationState = {
+  openChat?: string;
+  openMessage?: string;
+};
 
 function ChatDeepLink({ onSelect }: { onSelect: (char: Character) => void }) {
   const { characterId } = useParams();
@@ -43,7 +46,7 @@ export default function App() {
   const [vCrushTokens] = useState(150);
   const [vLinkTokens] = useState(500);
   const [activeChat, setActiveChat] = useState<Character | null>(null);
-  const [activeVideo, setActiveVideo] = useState<Character | null>(null);
+  const [autoOpenMessageId, setAutoOpenMessageId] = useState<string | undefined>();
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
   const [affinityByCharacter, setAffinityByCharacter] = useState<Record<string, number>>(() =>
@@ -67,7 +70,6 @@ export default function App() {
     }
   };
 
-  const handleWatch = (char: Character) => setActiveVideo(char);
   const handleSelect = (char: Character) => {
     setActiveChat({
       ...char,
@@ -83,9 +85,27 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (location.pathname.startsWith("/chat/")) return;
-    setActiveChat(null);
-  }, [location.pathname]);
+    const state = location.state as AppLocationState | null;
+    if (state?.openChat) {
+      const char = CHARACTERS.find((c) => c.id === state.openChat);
+      if (char) {
+        setActiveChat({
+          ...char,
+          currentAffinity: affinityByCharacter[char.id] ?? char.currentAffinity,
+        });
+        if (state.openMessage) {
+          setAutoOpenMessageId(state.openMessage);
+        }
+      }
+      window.history.replaceState({}, document.title);
+      return;
+    }
+
+    if (!location.pathname.startsWith("/chat/")) {
+      setActiveChat(null);
+      setAutoOpenMessageId(undefined);
+    }
+  }, [location.pathname, location.state, affinityByCharacter]);
 
   return (
     <div className="flex min-h-screen flex-col bg-stone-50 dark:bg-surface">
@@ -101,8 +121,10 @@ export default function App() {
         {activeChat ? (
           <ChatInterface
             character={activeChat}
+            autoOpenMessageId={autoOpenMessageId}
             onBack={() => {
               setActiveChat(null);
+              setAutoOpenMessageId(undefined);
               navigate("/");
             }}
             onAffinityChange={handleAffinityChange}
@@ -110,47 +132,12 @@ export default function App() {
         ) : (
           <>
             <Routes>
-              <Route path="/" element={<HomePage onSelect={handleSelect} onWatch={handleWatch} />} />
-              <Route
-                path="/characters"
-                element={<BrowseCharactersPage onSelect={handleSelect} onWatch={handleWatch} />}
-              />
+              <Route path="/" element={<HomePage onSelect={handleSelect} />} />
+              <Route path="/characters" element={<BrowseCharactersPage onSelect={handleSelect} />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
               <Route path="/chat/:characterId" element={<ChatDeepLink onSelect={handleSelect} />} />
             </Routes>
-
-            <AnimatePresence>
-              {activeVideo && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-[60] flex items-center justify-center bg-stone-50/90 dark:bg-surface/90 p-4 backdrop-blur-2xl"
-                >
-                  <motion.div
-                    initial={{ scale: 0.9, y: 20 }}
-                    animate={{ scale: 1, y: 0 }}
-                    exit={{ scale: 0.9, y: 20 }}
-                    className="relative aspect-video w-full max-w-5xl overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setActiveVideo(null)}
-                      className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-stone-50/60 dark:bg-surface/60 text-stone-800 dark:text-stone-100 backdrop-blur-md transition-all hover:bg-accent"
-                    >
-                      <X size={20} />
-                    </button>
-                    <video src={activeVideo.premiumVideo} autoPlay loop className="h-full w-full object-cover" />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
-                    <div className="absolute bottom-10 left-10">
-                      <h3 className="mb-2 font-serif text-4xl font-bold text-stone-900 dark:text-stone-50">{activeVideo.name}</h3>
-                      <p className="font-medium tracking-wide text-stone-600 dark:text-stone-400">Exclusive preview</p>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
 
             <CTASection />
             <Footer />
@@ -178,7 +165,7 @@ const CTASection = () => (
         <input
           type="email"
           placeholder="Enter your email"
-          className="flex-1 rounded-2xl border border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.04] px-6 py-4 text-stone-800 dark:text-stone-100 outline-none transition-colors placeholder:text-stone-900 dark:text-stone-500 focus:border-accent/40 focus:ring-2 focus:ring-accent/15"
+          className="flex-1 rounded-2xl border border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.04] px-6 py-4 text-stone-800 dark:text-stone-100 outline-none transition-colors placeholder:text-stone-500 focus:border-accent/40 focus:ring-2 focus:ring-accent/15"
         />
         <button
           type="button"
@@ -190,4 +177,3 @@ const CTASection = () => (
     </div>
   </section>
 );
-

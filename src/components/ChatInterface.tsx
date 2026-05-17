@@ -64,9 +64,61 @@ interface Props {
   character: Character;
   onBack: () => void;
   onAffinityChange?: (characterId: string, affinity: number) => void;
+  autoOpenMessageId?: string;
 }
 
-export default function ChatInterface({ character, onBack, onAffinityChange }: Props) {
+function PrivateMessagesInbox({ onPlayAudio }: { onPlayAudio: () => void }) {
+  return (
+    <div className="mb-6 w-full rounded-2xl border border-black/[0.06] dark:border-white/[0.06] bg-black/[0.03] dark:bg-white/[0.03] p-4 text-left">
+      <h4 className="mb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+        Private Messages
+      </h4>
+      <ul className="space-y-2">
+        {PRIVATE_MESSAGES.map((item) => (
+          <li key={item.id}>
+            <button
+              type="button"
+              disabled={item.locked}
+              title={item.locked ? "Subscription Required" : undefined}
+              onClick={() => {
+                if (!item.locked) {
+                  onPlayAudio();
+                }
+              }}
+              className={`relative flex w-full items-center gap-3 rounded-xl border border-black/[0.06] dark:border-white/[0.06] px-3 py-2.5 text-left transition-colors ${
+                item.locked
+                  ? "cursor-not-allowed"
+                  : "hover:border-accent/25 hover:bg-black/[0.04] dark:hover:bg-white/[0.04]"
+              }`}
+            >
+              {item.locked ? (
+                <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-sm">
+                  <Lock size={16} className="text-stone-600 dark:text-stone-400" />
+                </div>
+              ) : null}
+              <span
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                  item.locked ? "bg-stone-200 dark:bg-stone-800/60" : "bg-accent/15 text-accent"
+                }`}
+              >
+                {item.locked ? (
+                  <Lock size={14} className="text-stone-900 dark:text-stone-500" />
+                ) : (
+                  <Play size={14} fill="currentColor" />
+                )}
+              </span>
+              <span className={`text-sm font-medium ${item.locked ? "text-stone-900 dark:text-stone-500" : "text-stone-700 dark:text-stone-200"}`}>
+                {item.title}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default function ChatInterface({ character, onBack, onAffinityChange, autoOpenMessageId }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -80,6 +132,16 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const characterWithAffinity: Character = { ...character, currentAffinity: affinity };
+
+  const openAudioMessage = () => setActiveMessage(DEMO_AUDIO_MESSAGE);
+
+  useEffect(() => {
+    if (!autoOpenMessageId) return;
+    const item = PRIVATE_MESSAGES.find((m) => m.id === autoOpenMessageId);
+    if (item && !item.locked) {
+      setActiveMessage(DEMO_AUDIO_MESSAGE);
+    }
+  }, [autoOpenMessageId]);
 
   useEffect(() => {
     setAffinity(character.currentAffinity);
@@ -253,52 +315,7 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
             </div>
           </div>
 
-          <div className="mb-6 w-full rounded-2xl border border-black/[0.06] dark:border-white/[0.06] bg-black/[0.03] dark:bg-white/[0.03] p-4 text-left">
-            <h4 className="mb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Private Messages
-            </h4>
-            <ul className="space-y-2">
-              {PRIVATE_MESSAGES.map((item) => (
-                <li key={item.id}>
-                  <button
-                    type="button"
-                    disabled={item.locked}
-                    title={item.locked ? "Subscription Required" : undefined}
-                    onClick={() => {
-                      if (!item.locked) {
-                        setActiveMessage(DEMO_AUDIO_MESSAGE);
-                      }
-                    }}
-                    className={`relative flex w-full items-center gap-3 rounded-xl border border-black/[0.06] dark:border-white/[0.06] px-3 py-2.5 text-left transition-colors ${
-                      item.locked
-                        ? "cursor-not-allowed"
-                        : "hover:border-accent/25 hover:bg-black/[0.04] dark:bg-white/[0.04]"
-                    }`}
-                  >
-                    {item.locked ? (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-sm">
-                        <Lock size={16} className="text-stone-600 dark:text-stone-400" />
-                      </div>
-                    ) : null}
-                    <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
-                        item.locked ? "bg-stone-200 dark:bg-stone-800/60" : "bg-accent/15 text-accent"
-                      }`}
-                    >
-                      {item.locked ? (
-                        <Lock size={14} className="text-stone-900 dark:text-stone-500" />
-                      ) : (
-                        <Play size={14} fill="currentColor" />
-                      )}
-                    </span>
-                    <span className={`text-sm font-medium ${item.locked ? "text-stone-900 dark:text-stone-500" : "text-stone-700 dark:text-stone-200"}`}>
-                      {item.title}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <PrivateMessagesInbox onPlayAudio={openAudioMessage} />
         </div>
 
         <div className="mt-auto border-t border-black/[0.06] dark:border-white/[0.06] pt-6">
@@ -609,13 +626,18 @@ export default function ChatInterface({ character, onBack, onAffinityChange }: P
                       ))}
                     </div>
                   </div>
+                  <PrivateMessagesInbox
+                    onPlayAudio={() => {
+                      setProfileOpen(false);
+                      openAudioMessage();
+                    }}
+                  />
                 </div>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
-
 
       <AnimatePresence>
         {activeMessage ? (
